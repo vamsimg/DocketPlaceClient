@@ -21,11 +21,12 @@ namespace DocketPlaceClient
 		private static bool CheckIfTaxInvoice(string receipt_content)
 		{
 			string[] lines = Regex.Split(receipt_content, "\n");
+               string[] receiptIdentifiers = Regex.Split(Properties.Settings.Default.ReceiptIdentifiers, ",");
 
 			bool isTaxInvoice = false;
 			foreach (string line in lines)
 			{
-				isTaxInvoice = line.Contains("Sales Receipt");
+                    isTaxInvoice = receiptIdentifiers.ToList().Any(s => line.Contains(s));
 				if (isTaxInvoice)
 				{
 					return isTaxInvoice;
@@ -42,17 +43,15 @@ namespace DocketPlaceClient
 			string docketLine = "";
 			foreach (string line in lines)
 			{
-				if (line.Contains("Transaction #:"))
+                    if (line.Contains(Properties.Settings.Default.TransactionCaption))
 				{
 					docketLine = lines[index];
 					break;
 				}
 				index++;
 			}
-
-
-			string[] lineItems = docketLine.Replace(" ","").Split(':');
-			int docket_id = Convert.ToInt32(lineItems[1].Trim());
+               
+			int docket_id = Convert.ToInt32(docketLine.Replace(Properties.Settings.Default.TransactionCaption, "").Replace(" ","").Trim());
 
 			return docket_id;
 		}

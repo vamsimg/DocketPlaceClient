@@ -44,5 +44,11 @@
     <Setting Name="POSServerDBName" Type="System.String" Scope="User">
       <Value Profile="(Default)">sample</Value>
     </Setting>
+    <Setting Name="ReceiptIdentifiers" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sales Receipt,Tax Invoice</Value>
+    </Setting>
+    <Setting Name="TransactionCaption" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Transaction #:</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
