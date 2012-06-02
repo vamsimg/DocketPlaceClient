@@ -155,24 +155,26 @@ namespace DocketPlaceClient.au.com.docketplace {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://docketplace.com.au/TestConnection", RequestNamespace="http://docketplace.com.au/", ResponseNamespace="http://docketplace.com.au/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public AdResponse TestConnection(AdRequest new_request) {
+        public AdResponse TestConnection(int storeID, string password) {
             object[] results = this.Invoke("TestConnection", new object[] {
-                        new_request});
+                        storeID,
+                        password});
             return ((AdResponse)(results[0]));
         }
         
         /// <remarks/>
-        public void TestConnectionAsync(AdRequest new_request) {
-            this.TestConnectionAsync(new_request, null);
+        public void TestConnectionAsync(int storeID, string password) {
+            this.TestConnectionAsync(storeID, password, null);
         }
         
         /// <remarks/>
-        public void TestConnectionAsync(AdRequest new_request, object userState) {
+        public void TestConnectionAsync(int storeID, string password, object userState) {
             if ((this.TestConnectionOperationCompleted == null)) {
                 this.TestConnectionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnTestConnectionOperationCompleted);
             }
             this.InvokeAsync("TestConnection", new object[] {
-                        new_request}, this.TestConnectionOperationCompleted, userState);
+                        storeID,
+                        password}, this.TestConnectionOperationCompleted, userState);
         }
         
         private void OnTestConnectionOperationCompleted(object arg) {

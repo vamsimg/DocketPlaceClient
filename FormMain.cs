@@ -69,15 +69,7 @@ namespace DocketPlaceClient
 	   private Button ChooseRMDButton;
 	   private OpenFileDialog DPOpenFileDialog;
 	   private Button SaveRewardsSettingsButton;
-	   private Label RewardsErrorLabel;
-	   private TabPage VouchersTabPage;
-	   private TextBox VoucherCodetextBox;
-	   private TextBox VoucherIDTextBox;
-	   private Button VoucherValiadateButton;
-	   private Label VoucherErrorLabel;
-	   private Label VoucherSuccessLabel;
-	   private Label VoucherIDLabel;
-	   private Label VoucherCodeLabel;
+        private Label RewardsErrorLabel;
 	   private Button SyncOfflineButton;
 	   private AxspsnifferLib.AxSerialPortMonitorAx axSerialPortMonitorAx;
 	   private Label label1;
@@ -160,6 +152,10 @@ namespace DocketPlaceClient
                this.ChooseRMDButton = new System.Windows.Forms.Button();
                this.RMLocationLabel = new System.Windows.Forms.Label();
                this.RMDBTextBox = new System.Windows.Forms.TextBox();
+               this.TransactionCaptionTextBox = new System.Windows.Forms.TextBox();
+               this.TransactionCaptionLabel = new System.Windows.Forms.Label();
+               this.ReceiptIdentifiersTextBox = new System.Windows.Forms.TextBox();
+               this.ReceiptIdentifierLabel = new System.Windows.Forms.Label();
                this.MicrosoftDBTextBox = new System.Windows.Forms.TextBox();
                this.label7 = new System.Windows.Forms.Label();
                this.TestMicrosoftConnectionErrorLabel = new System.Windows.Forms.Label();
@@ -183,30 +179,18 @@ namespace DocketPlaceClient
                this.DPLocationLabel = new System.Windows.Forms.Label();
                this.DPDBTextBox = new System.Windows.Forms.TextBox();
                this.SendSalesDataCheckBox = new System.Windows.Forms.CheckBox();
-               this.VouchersTabPage = new System.Windows.Forms.TabPage();
-               this.VoucherIDLabel = new System.Windows.Forms.Label();
-               this.VoucherCodeLabel = new System.Windows.Forms.Label();
-               this.VoucherErrorLabel = new System.Windows.Forms.Label();
-               this.VoucherSuccessLabel = new System.Windows.Forms.Label();
-               this.VoucherCodetextBox = new System.Windows.Forms.TextBox();
-               this.VoucherIDTextBox = new System.Windows.Forms.TextBox();
-               this.VoucherValiadateButton = new System.Windows.Forms.Button();
                this.RMOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.DPOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.axSerialPortMonitorAx = new AxspsnifferLib.AxSerialPortMonitorAx();
-               this.ReceiptIdentifiersTextBox = new System.Windows.Forms.TextBox();
-               this.ReceiptIdentifierLabel = new System.Windows.Forms.Label();
-               this.TransactionCaptionTextBox = new System.Windows.Forms.TextBox();
-               this.TransactionCaptionLabel = new System.Windows.Forms.Label();
                this.MainTabControl.SuspendLayout();
                this.PrintTab.SuspendLayout();
                this.ConnectionTab.SuspendLayout();
                this.CustomersTab.SuspendLayout();
+               ((System.ComponentModel.ISupportInitialize)(this.POSSoftwareSplitContainer)).BeginInit();
                this.POSSoftwareSplitContainer.Panel1.SuspendLayout();
                this.POSSoftwareSplitContainer.Panel2.SuspendLayout();
                this.POSSoftwareSplitContainer.SuspendLayout();
                this.POSSoftwareGroupBox.SuspendLayout();
-               this.VouchersTabPage.SuspendLayout();
                ((System.ComponentModel.ISupportInitialize)(this.axSerialPortMonitorAx)).BeginInit();
                this.SuspendLayout();
                // 
@@ -279,7 +263,6 @@ namespace DocketPlaceClient
                this.MainTabControl.Controls.Add(this.PrintTab);
                this.MainTabControl.Controls.Add(this.ConnectionTab);
                this.MainTabControl.Controls.Add(this.CustomersTab);
-               this.MainTabControl.Controls.Add(this.VouchersTabPage);
                this.MainTabControl.Location = new System.Drawing.Point(28, 26);
                this.MainTabControl.Name = "MainTabControl";
                this.MainTabControl.SelectedIndex = 0;
@@ -301,7 +284,7 @@ namespace DocketPlaceClient
                this.PrintTab.Location = new System.Drawing.Point(4, 22);
                this.PrintTab.Name = "PrintTab";
                this.PrintTab.Padding = new System.Windows.Forms.Padding(3);
-               this.PrintTab.Size = new System.Drawing.Size(538, 495);
+               this.PrintTab.Size = new System.Drawing.Size(538, 550);
                this.PrintTab.TabIndex = 1;
                this.PrintTab.Text = "Print";
                this.PrintTab.UseVisualStyleBackColor = true;
@@ -401,7 +384,7 @@ namespace DocketPlaceClient
                this.ConnectionTab.Location = new System.Drawing.Point(4, 22);
                this.ConnectionTab.Name = "ConnectionTab";
                this.ConnectionTab.Padding = new System.Windows.Forms.Padding(3);
-               this.ConnectionTab.Size = new System.Drawing.Size(538, 562);
+               this.ConnectionTab.Size = new System.Drawing.Size(538, 550);
                this.ConnectionTab.TabIndex = 0;
                this.ConnectionTab.Text = "Connection";
                this.ConnectionTab.UseVisualStyleBackColor = true;
@@ -551,6 +534,38 @@ namespace DocketPlaceClient
                this.RMDBTextBox.Name = "RMDBTextBox";
                this.RMDBTextBox.Size = new System.Drawing.Size(268, 20);
                this.RMDBTextBox.TabIndex = 30;
+               // 
+               // TransactionCaptionTextBox
+               // 
+               this.TransactionCaptionTextBox.Location = new System.Drawing.Point(131, 139);
+               this.TransactionCaptionTextBox.Name = "TransactionCaptionTextBox";
+               this.TransactionCaptionTextBox.Size = new System.Drawing.Size(127, 20);
+               this.TransactionCaptionTextBox.TabIndex = 49;
+               // 
+               // TransactionCaptionLabel
+               // 
+               this.TransactionCaptionLabel.AutoSize = true;
+               this.TransactionCaptionLabel.Location = new System.Drawing.Point(13, 143);
+               this.TransactionCaptionLabel.Name = "TransactionCaptionLabel";
+               this.TransactionCaptionLabel.Size = new System.Drawing.Size(102, 13);
+               this.TransactionCaptionLabel.TabIndex = 48;
+               this.TransactionCaptionLabel.Text = "Transaction Caption";
+               // 
+               // ReceiptIdentifiersTextBox
+               // 
+               this.ReceiptIdentifiersTextBox.Location = new System.Drawing.Point(131, 104);
+               this.ReceiptIdentifiersTextBox.Name = "ReceiptIdentifiersTextBox";
+               this.ReceiptIdentifiersTextBox.Size = new System.Drawing.Size(382, 20);
+               this.ReceiptIdentifiersTextBox.TabIndex = 47;
+               // 
+               // ReceiptIdentifierLabel
+               // 
+               this.ReceiptIdentifierLabel.AutoSize = true;
+               this.ReceiptIdentifierLabel.Location = new System.Drawing.Point(13, 108);
+               this.ReceiptIdentifierLabel.Name = "ReceiptIdentifierLabel";
+               this.ReceiptIdentifierLabel.Size = new System.Drawing.Size(92, 13);
+               this.ReceiptIdentifierLabel.TabIndex = 46;
+               this.ReceiptIdentifierLabel.Text = "Receipt Identifiers";
                // 
                // MicrosoftDBTextBox
                // 
@@ -775,87 +790,6 @@ namespace DocketPlaceClient
                this.SendSalesDataCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
                this.SendSalesDataCheckBox.UseVisualStyleBackColor = true;
                // 
-               // VouchersTabPage
-               // 
-               this.VouchersTabPage.Controls.Add(this.VoucherIDLabel);
-               this.VouchersTabPage.Controls.Add(this.VoucherCodeLabel);
-               this.VouchersTabPage.Controls.Add(this.VoucherErrorLabel);
-               this.VouchersTabPage.Controls.Add(this.VoucherSuccessLabel);
-               this.VouchersTabPage.Controls.Add(this.VoucherCodetextBox);
-               this.VouchersTabPage.Controls.Add(this.VoucherIDTextBox);
-               this.VouchersTabPage.Controls.Add(this.VoucherValiadateButton);
-               this.VouchersTabPage.Location = new System.Drawing.Point(4, 22);
-               this.VouchersTabPage.Name = "VouchersTabPage";
-               this.VouchersTabPage.Padding = new System.Windows.Forms.Padding(3);
-               this.VouchersTabPage.Size = new System.Drawing.Size(538, 562);
-               this.VouchersTabPage.TabIndex = 3;
-               this.VouchersTabPage.Text = "Vouchers";
-               this.VouchersTabPage.UseVisualStyleBackColor = true;
-               // 
-               // VoucherIDLabel
-               // 
-               this.VoucherIDLabel.AutoSize = true;
-               this.VoucherIDLabel.Location = new System.Drawing.Point(6, 18);
-               this.VoucherIDLabel.Name = "VoucherIDLabel";
-               this.VoucherIDLabel.Size = new System.Drawing.Size(61, 13);
-               this.VoucherIDLabel.TabIndex = 44;
-               this.VoucherIDLabel.Text = "Voucher ID";
-               // 
-               // VoucherCodeLabel
-               // 
-               this.VoucherCodeLabel.AutoSize = true;
-               this.VoucherCodeLabel.Location = new System.Drawing.Point(6, 54);
-               this.VoucherCodeLabel.Name = "VoucherCodeLabel";
-               this.VoucherCodeLabel.Size = new System.Drawing.Size(32, 13);
-               this.VoucherCodeLabel.TabIndex = 45;
-               this.VoucherCodeLabel.Text = "Code";
-               // 
-               // VoucherErrorLabel
-               // 
-               this.VoucherErrorLabel.AutoSize = true;
-               this.VoucherErrorLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-               this.VoucherErrorLabel.ForeColor = System.Drawing.Color.Red;
-               this.VoucherErrorLabel.Location = new System.Drawing.Point(126, 107);
-               this.VoucherErrorLabel.Name = "VoucherErrorLabel";
-               this.VoucherErrorLabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-               this.VoucherErrorLabel.Size = new System.Drawing.Size(12, 15);
-               this.VoucherErrorLabel.TabIndex = 43;
-               // 
-               // VoucherSuccessLabel
-               // 
-               this.VoucherSuccessLabel.AutoSize = true;
-               this.VoucherSuccessLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-               this.VoucherSuccessLabel.ForeColor = System.Drawing.Color.Green;
-               this.VoucherSuccessLabel.Location = new System.Drawing.Point(126, 134);
-               this.VoucherSuccessLabel.Name = "VoucherSuccessLabel";
-               this.VoucherSuccessLabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-               this.VoucherSuccessLabel.Size = new System.Drawing.Size(12, 15);
-               this.VoucherSuccessLabel.TabIndex = 42;
-               // 
-               // VoucherCodetextBox
-               // 
-               this.VoucherCodetextBox.Location = new System.Drawing.Point(126, 51);
-               this.VoucherCodetextBox.Name = "VoucherCodetextBox";
-               this.VoucherCodetextBox.Size = new System.Drawing.Size(100, 20);
-               this.VoucherCodetextBox.TabIndex = 2;
-               // 
-               // VoucherIDTextBox
-               // 
-               this.VoucherIDTextBox.Location = new System.Drawing.Point(126, 15);
-               this.VoucherIDTextBox.Name = "VoucherIDTextBox";
-               this.VoucherIDTextBox.Size = new System.Drawing.Size(100, 20);
-               this.VoucherIDTextBox.TabIndex = 1;
-               // 
-               // VoucherValiadateButton
-               // 
-               this.VoucherValiadateButton.Location = new System.Drawing.Point(25, 107);
-               this.VoucherValiadateButton.Name = "VoucherValiadateButton";
-               this.VoucherValiadateButton.Size = new System.Drawing.Size(75, 23);
-               this.VoucherValiadateButton.TabIndex = 0;
-               this.VoucherValiadateButton.Text = "Validate";
-               this.VoucherValiadateButton.UseVisualStyleBackColor = true;
-               this.VoucherValiadateButton.Click += new System.EventHandler(this.VoucherValidateButton_Click);
-               // 
                // axSerialPortMonitorAx
                // 
                this.axSerialPortMonitorAx.Enabled = true;
@@ -866,38 +800,6 @@ namespace DocketPlaceClient
                this.axSerialPortMonitorAx.TabIndex = 40;
                this.axSerialPortMonitorAx.OnOpenClose += new AxspsnifferLib._ISerialPortMonitorAxEvents_OnOpenCloseEventHandler(this.axSerialPortMonitorAx_OnOpenClose);
                this.axSerialPortMonitorAx.OnWrite += new AxspsnifferLib._ISerialPortMonitorAxEvents_OnWriteEventHandler(this.axSerialPortMonitorAx_OnWrite);
-               // 
-               // ReceiptIdentifiersTextBox
-               // 
-               this.ReceiptIdentifiersTextBox.Location = new System.Drawing.Point(131, 104);
-               this.ReceiptIdentifiersTextBox.Name = "ReceiptIdentifiersTextBox";
-               this.ReceiptIdentifiersTextBox.Size = new System.Drawing.Size(382, 20);
-               this.ReceiptIdentifiersTextBox.TabIndex = 47;
-               // 
-               // ReceiptIdentifierLabel
-               // 
-               this.ReceiptIdentifierLabel.AutoSize = true;
-               this.ReceiptIdentifierLabel.Location = new System.Drawing.Point(13, 108);
-               this.ReceiptIdentifierLabel.Name = "ReceiptIdentifierLabel";
-               this.ReceiptIdentifierLabel.Size = new System.Drawing.Size(92, 13);
-               this.ReceiptIdentifierLabel.TabIndex = 46;
-               this.ReceiptIdentifierLabel.Text = "Receipt Identifiers";
-               // 
-               // TransactionCaptionTextBox
-               // 
-               this.TransactionCaptionTextBox.Location = new System.Drawing.Point(131, 139);
-               this.TransactionCaptionTextBox.Name = "TransactionCaptionTextBox";
-               this.TransactionCaptionTextBox.Size = new System.Drawing.Size(127, 20);
-               this.TransactionCaptionTextBox.TabIndex = 49;
-               // 
-               // TransactionCaptionLabel
-               // 
-               this.TransactionCaptionLabel.AutoSize = true;
-               this.TransactionCaptionLabel.Location = new System.Drawing.Point(13, 143);
-               this.TransactionCaptionLabel.Name = "TransactionCaptionLabel";
-               this.TransactionCaptionLabel.Size = new System.Drawing.Size(102, 13);
-               this.TransactionCaptionLabel.TabIndex = 48;
-               this.TransactionCaptionLabel.Text = "Transaction Caption";
                // 
                // FormMain
                // 
@@ -923,11 +825,10 @@ namespace DocketPlaceClient
                this.POSSoftwareSplitContainer.Panel1.PerformLayout();
                this.POSSoftwareSplitContainer.Panel2.ResumeLayout(false);
                this.POSSoftwareSplitContainer.Panel2.PerformLayout();
+               ((System.ComponentModel.ISupportInitialize)(this.POSSoftwareSplitContainer)).EndInit();
                this.POSSoftwareSplitContainer.ResumeLayout(false);
                this.POSSoftwareGroupBox.ResumeLayout(false);
                this.POSSoftwareGroupBox.PerformLayout();
-               this.VouchersTabPage.ResumeLayout(false);
-               this.VouchersTabPage.PerformLayout();
                ((System.ComponentModel.ISupportInitialize)(this.axSerialPortMonitorAx)).EndInit();
                this.ResumeLayout(false);
                this.PerformLayout();
@@ -1321,7 +1222,7 @@ namespace DocketPlaceClient
                     //Call web service
                     if (is_test)
                     {
-                        new_response = provider.TestConnection(new_request);
+                        new_response = provider.TestConnection(new_request.store_id,new_request.password);
                     }
                     else
                     {
@@ -1446,10 +1347,7 @@ namespace DocketPlaceClient
 			ConnectionErrorlabel.Text = "";	
 			RewardsErrorLabel.Text = "";
 			TestStoreConnectionErrorLabel.Text = "";
-			TestMicrosoftConnectionErrorLabel.Text = "";
-			VoucherErrorLabel.Text = "";
-			VoucherSuccessLabel.Text = "";	
-					
+			TestMicrosoftConnectionErrorLabel.Text = "";					
 		}		
 
 		private void SaveConnectionSettingsButton_Click(object sender, EventArgs e)
@@ -1702,55 +1600,7 @@ namespace DocketPlaceClient
 				string fileName = DPOpenFileDialog.FileName;
 				DPDBTextBox.Text = fileName;
 			}
-		}
-
-		private void VoucherValidateButton_Click(object sender, EventArgs e)
-		{
-			ClearErrorMessages();
-
-			try
-			{
-				//Check if all fields are filled.
-				if ((VoucherIDTextBox.Text == "") || (VoucherCodetextBox.Text == ""))
-				{
-					VoucherErrorLabel.Text = "Voucher ID or Code are empty";
-					return;
-				}
-				else if ((StoreIDtextBox.Text == "") || (PasswordTextBox.Text == ""))
-				{
-					VoucherErrorLabel.Text = "Store ID or Password are empty";
-					return;
-				}
-		
-				VoucherCheck new_request = new VoucherCheck();
-				new_request.store_id = Convert.ToInt32(StoreIDtextBox.Text);
-				new_request.password = PasswordTextBox.Text;
-
-				new_request.voucher_id = Convert.ToInt32(VoucherIDTextBox.Text);
-				new_request.voucher_code = VoucherCodetextBox.Text;
-				new_request.markAsUsed = true;
-
-				
-
-				AdProvider provider = new AdProvider();
-
-				VoucherResponse newResponse = provider.ValidateVoucher(new_request);
-				if (newResponse.is_error)
-				{
-					AddLog(newResponse.status,true);
-					VoucherErrorLabel.Text = newResponse.status;
-				}
-				else
-				{
-					VoucherSuccessLabel.Text = newResponse.status;
-				}
-			}
-			catch (Exception ex)
-			{			
-				AddLog(ex.ToString(),true);
-				VoucherErrorLabel.Text = "An error has occurred. Please check that you have entered the voucher code correctly.";
-			}
-		}
+		}	
 
 		private void SyncOfflineButton_Click(object sender, EventArgs e)
 		{
