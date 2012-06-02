@@ -1222,7 +1222,7 @@ namespace DocketPlaceClient
                     //Call web service
                     if (is_test)
                     {
-                        new_response = provider.TestConnection(new_request.store_id,new_request.password);
+                         new_response = provider.TestConnection(new_request);
                     }
                     else
                     {
