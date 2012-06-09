@@ -152,22 +152,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <COMReference Include="AxspsnifferLib">
-      <Guid>{D39E5F2E-3DBE-485A-934E-9AE554BF0FC6}</Guid>
-      <VersionMajor>4</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
-    <COMReference Include="spsnifferLib">
-      <Guid>{D39E5F2E-3DBE-485A-934E-9AE554BF0FC6}</Guid>
-      <VersionMajor>4</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Web References\au.com.docketplace\Adprovider.disco" />
@@ -296,10 +280,32 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="default.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="docketplaceRewards.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxspsnifferLib">
+      <Guid>{D39E5F2E-3DBE-485A-934E-9AE554BF0FC6}</Guid>
+      <VersionMajor>4</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="spsnifferLib">
+      <Guid>{D39E5F2E-3DBE-485A-934E-9AE554BF0FC6}</Guid>
+      <VersionMajor>4</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

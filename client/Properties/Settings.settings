@@ -50,5 +50,8 @@
     <Setting Name="TransactionCaption" Type="System.String" Scope="User">
       <Value Profile="(Default)">Transaction #:</Value>
     </Setting>
+    <Setting Name="DefaultAd" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\DocketPlace\Client\default.png</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

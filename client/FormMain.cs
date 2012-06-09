@@ -95,6 +95,10 @@ namespace DocketPlaceClient
         private Label TransactionCaptionLabel;
         private TextBox ReceiptIdentifiersTextBox;
         private Label ReceiptIdentifierLabel;
+        private TextBox DefaultAdTextBox;
+        private Label DefaultAdLabel;
+        private OpenFileDialog DefaultAdOpenFileDialog;
+        private Button FindDefaultAdButton;
         private IContainer components;
 
 		
@@ -130,6 +134,9 @@ namespace DocketPlaceClient
                this.DefaultAdPrintButton = new System.Windows.Forms.Button();
                this.MainTabControl = new System.Windows.Forms.TabControl();
                this.PrintTab = new System.Windows.Forms.TabPage();
+               this.FindDefaultAdButton = new System.Windows.Forms.Button();
+               this.DefaultAdTextBox = new System.Windows.Forms.TextBox();
+               this.DefaultAdLabel = new System.Windows.Forms.Label();
                this.label1 = new System.Windows.Forms.Label();
                this.MonitoringErrorlabel = new System.Windows.Forms.Label();
                this.PrinterErrorLabel = new System.Windows.Forms.Label();
@@ -182,6 +189,7 @@ namespace DocketPlaceClient
                this.RMOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.DPOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.axSerialPortMonitorAx = new AxspsnifferLib.AxSerialPortMonitorAx();
+               this.DefaultAdOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.MainTabControl.SuspendLayout();
                this.PrintTab.SuspendLayout();
                this.ConnectionTab.SuspendLayout();
@@ -271,6 +279,9 @@ namespace DocketPlaceClient
                // 
                // PrintTab
                // 
+               this.PrintTab.Controls.Add(this.FindDefaultAdButton);
+               this.PrintTab.Controls.Add(this.DefaultAdTextBox);
+               this.PrintTab.Controls.Add(this.DefaultAdLabel);
                this.PrintTab.Controls.Add(this.label1);
                this.PrintTab.Controls.Add(this.MonitoringErrorlabel);
                this.PrintTab.Controls.Add(this.PrinterErrorLabel);
@@ -288,6 +299,32 @@ namespace DocketPlaceClient
                this.PrintTab.TabIndex = 1;
                this.PrintTab.Text = "Print";
                this.PrintTab.UseVisualStyleBackColor = true;
+               // 
+               // FindDefaultAdButton
+               // 
+               this.FindDefaultAdButton.Location = new System.Drawing.Point(447, 86);
+               this.FindDefaultAdButton.Name = "FindDefaultAdButton";
+               this.FindDefaultAdButton.Size = new System.Drawing.Size(75, 23);
+               this.FindDefaultAdButton.TabIndex = 44;
+               this.FindDefaultAdButton.Text = "Find Ad";
+               this.FindDefaultAdButton.UseVisualStyleBackColor = true;
+               this.FindDefaultAdButton.Click += new System.EventHandler(this.FindDefaultAdButton_Click);
+               // 
+               // DefaultAdTextBox
+               // 
+               this.DefaultAdTextBox.Location = new System.Drawing.Point(169, 86);
+               this.DefaultAdTextBox.Name = "DefaultAdTextBox";
+               this.DefaultAdTextBox.Size = new System.Drawing.Size(254, 20);
+               this.DefaultAdTextBox.TabIndex = 43;
+               // 
+               // DefaultAdLabel
+               // 
+               this.DefaultAdLabel.AutoSize = true;
+               this.DefaultAdLabel.Location = new System.Drawing.Point(10, 89);
+               this.DefaultAdLabel.Name = "DefaultAdLabel";
+               this.DefaultAdLabel.Size = new System.Drawing.Size(57, 13);
+               this.DefaultAdLabel.TabIndex = 42;
+               this.DefaultAdLabel.Text = "Default Ad";
                // 
                // label1
                // 
@@ -313,7 +350,7 @@ namespace DocketPlaceClient
                this.PrinterErrorLabel.AutoSize = true;
                this.PrinterErrorLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                this.PrinterErrorLabel.ForeColor = System.Drawing.Color.Red;
-               this.PrinterErrorLabel.Location = new System.Drawing.Point(169, 115);
+               this.PrinterErrorLabel.Location = new System.Drawing.Point(169, 136);
                this.PrinterErrorLabel.Name = "PrinterErrorLabel";
                this.PrinterErrorLabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
                this.PrinterErrorLabel.Size = new System.Drawing.Size(12, 15);
@@ -321,7 +358,7 @@ namespace DocketPlaceClient
                // 
                // SavePrinterSettingsButton
                // 
-               this.SavePrinterSettingsButton.Location = new System.Drawing.Point(25, 110);
+               this.SavePrinterSettingsButton.Location = new System.Drawing.Point(13, 131);
                this.SavePrinterSettingsButton.Name = "SavePrinterSettingsButton";
                this.SavePrinterSettingsButton.Size = new System.Drawing.Size(81, 23);
                this.SavePrinterSettingsButton.TabIndex = 38;
@@ -965,6 +1002,9 @@ namespace DocketPlaceClient
                 throw ex;
             }
 
+               //Default Ad 
+                 DefaultAdTextBox.Text = Properties.Settings.Default.DefaultAd;
+
 			//Load Loyalty Settings
 			SendSalesDataCheckBox.Checked = Properties.Settings.Default.sendSalesData;
 			
@@ -1302,13 +1342,22 @@ namespace DocketPlaceClient
 		
 		private void PrintLocalDefaultImage(PosPrinter actualPrinter)
 		{
-			Image Dummy = Image.FromFile("default.png");
+               try
+               {
+                    Image Dummy = Image.FromFile(Properties.Settings.Default.DefaultAd);
 
-			Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
-			string directory = System.Environment.CurrentDirectory;
-			ADimg.Save("default.bmp", ImageFormat.Bmp);
+                    Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
+                   
+                    ADimg.Save("default.bmp", ImageFormat.Bmp);
 
-			actualPrinter.PrintBitmap(PrinterStation.Receipt, "default.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
+                    actualPrinter.PrintBitmap(PrinterStation.Receipt, "default.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
+               }
+               catch (Exception ex)
+               {
+                    AddLog(ex.ToString(),true);
+               }
+
+
 			actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\nPowered by www.docketplace.com.au");
 			actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\n\r\n\r\n");
 			actualPrinter.CutPaper(10);
@@ -1402,11 +1451,16 @@ namespace DocketPlaceClient
 				{
 					error_message = "Receipt printer is not detected.";                
 				}
+                    else if(DefaultAdTextBox.Text == "")
+                    {
+                         error_message = "Default Ad not selected.";
+                    }
+                         
 				else
 				{
 					Properties.Settings.Default.COMPort = cbPort.SelectedItem.ToString();
 					Properties.Settings.Default.OPOSPrinter = OPOSListcomboBox.SelectedItem.ToString();
-
+                         Properties.Settings.Default.DefaultAd = DefaultAdTextBox.Text;
 					error_message = "Settings saved successfully";
 					Properties.Settings.Default.Save();
 				}
@@ -1544,23 +1598,30 @@ namespace DocketPlaceClient
 
 		   try
 		   {
+                  
+                    actualPrinter.Open();
 
-			   actualPrinter.Open();
+                    AddLog("Printer opened", false);
 
-			   AddLog("Printer opened",false);
+                    actualPrinter.Claim(1000);
+                    actualPrinter.DeviceEnabled = true;
+                    actualPrinter.RecLetterQuality = true;
 
-			   actualPrinter.Claim(1000);
-			   actualPrinter.DeviceEnabled = true;
-			   actualPrinter.RecLetterQuality = true;
+                    try
+                    {
+                         Image Dummy = Image.FromFile(Properties.Settings.Default.DefaultAd);
 
-			   Image Dummy = Image.FromFile("default.png");
-			   
-			   Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
-			   string directory = System.Environment.CurrentDirectory;
-			   ADimg.Save("default.bmp", ImageFormat.Bmp);
-	
+                         Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
 
-			   actualPrinter.PrintBitmap(PrinterStation.Receipt, "default.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
+                         ADimg.Save("default.bmp", ImageFormat.Bmp);
+
+                         actualPrinter.PrintBitmap(PrinterStation.Receipt, "default.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);                       
+                    }
+                    catch (Exception ex)
+                    {
+                         AddLog(ex.ToString(), true);
+                    }
+
 
 			   actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\n\r\n\r\n");
 			   actualPrinter.CutPaper(10);
@@ -1600,7 +1661,16 @@ namespace DocketPlaceClient
 				string fileName = DPOpenFileDialog.FileName;
 				DPDBTextBox.Text = fileName;
 			}
-		}	
+		}
+
+          private void FindDefaultAdButton_Click(object sender, EventArgs e)
+          {
+               if (DefaultAdOpenFileDialog.ShowDialog() == DialogResult.OK)
+               {
+                    string fileName = DefaultAdOpenFileDialog.FileName;
+                    DefaultAdTextBox.Text = fileName;
+               }
+          }
 
 		private void SyncOfflineButton_Click(object sender, EventArgs e)
 		{
@@ -1675,6 +1745,8 @@ namespace DocketPlaceClient
 				RewardsErrorLabel.Text = "An error has occurred. Please check that you have entered the voucher code correctly.";
 			}
 		}
+
+          
 
 		#endregion  
 
@@ -1901,6 +1973,7 @@ namespace DocketPlaceClient
 
 		#endregion
 
-		
+        
+
 	}	
 }		
