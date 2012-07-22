@@ -88,7 +88,7 @@ namespace DocketPlaceClient
 					dbReader.Close();
 
 					//Get docket items for transaction.
-					docketCmd.CommandText = "SELECT Stock.stock_id, Stock.Barcode  ,print_inc, DocketLine.quantity, Stock.description from DocketLine INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id WHERE docket_id=" + latestDocket.local_id.ToString();
+                         docketCmd.CommandText = "SELECT Stock.stock_id, Stock.Barcode  , sell_inc , DocketLine.quantity, Stock.description from DocketLine INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id WHERE docket_id=" + latestDocket.local_id.ToString();
 					dbReader = docketCmd.ExecuteReader();
 					List<LocalDocketItem> tempArray = new List<LocalDocketItem>();
 
@@ -212,7 +212,7 @@ namespace DocketPlaceClient
 					dbReader.Close();
 
 					//Get docket items for transaction.
-					docketCmd.CommandText = "SELECT Stock.stock_id, Stock.Barcode ,print_inc, DocketLine.quantity, Stock.description from DocketLine INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id WHERE docket_id=" + item.local_id.ToString();
+					docketCmd.CommandText = "SELECT Stock.stock_id, Stock.Barcode ,sell_inc, DocketLine.quantity, Stock.description from DocketLine INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id WHERE docket_id=" + item.local_id.ToString();
 					dbReader = docketCmd.ExecuteReader();
 					List<LocalDocketItem> tempArray = new List<LocalDocketItem>();
 
