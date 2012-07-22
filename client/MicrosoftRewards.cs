@@ -110,7 +110,7 @@ namespace DocketPlaceClient
 
 
 				//Get docket items for transaction.
-				selectCommand.CommandText = "SELECT Item.ID, Item.ItemLookupCode ,TransactionEntry.price, TransactionEntry.quantity, Item.description from TransactionEntry INNER JOIN Item ON TransactionEntry.ItemID = Item.ID WHERE TransactionNumber=" + latestDocket.local_id.ToString();
+                    selectCommand.CommandText = "SELECT Item.ID, Item.ItemLookupCode ,TransactionEntry.price, TransactionEntry.quantity, Item.description, Department.Name, TransactionEntry.Cost, (TransactionEntry.price - TransactionEntry.SalesTax) as sale_ex  from TransactionEntry INNER JOIN Item ON TransactionEntry.ItemID = Item.ID INNER JOIN Department ON Item.DepartmentID = Department.ID WHERE TransactionNumber =" + latestDocket.local_id.ToString();
 
 				SqlDataReader itemDataReader = selectCommand.ExecuteReader();
 
@@ -124,8 +124,12 @@ namespace DocketPlaceClient
 					newItem.unit_cost = (Decimal)itemDataReader["price"];
 					newItem.quantity = (Double)itemDataReader["quantity"];
 					newItem.description = (string)itemDataReader["description"];
+                         newItem.department = (string)itemDataReader["Name"];
 
-					tempArray.Add(newItem);
+                         newItem.cost_ex = (Decimal)itemDataReader["Cost"];
+                         newItem.sale_ex = (Decimal)itemDataReader["sale_ex"];
+                         
+                         tempArray.Add(newItem);
 				}
 
 				itemDataReader.Close();

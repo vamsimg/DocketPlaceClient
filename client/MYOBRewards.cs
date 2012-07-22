@@ -49,9 +49,7 @@ namespace DocketPlaceClient
 		}
 
 		public static LocalDocket GetLastDocket(string receipt_content)
-		{
-			string RMDBLocation = Properties.Settings.Default.RMDBLocation;
-
+		{			
 			if (!CheckIfTaxInvoice(receipt_content))
 			{
 				return null;
@@ -60,121 +58,132 @@ namespace DocketPlaceClient
 			{
 				int docket_id = ExtractDocketID(receipt_content);
 
-				LocalDocket latestDocket = new LocalDocket();
-
-				try
-				{
-					OleDbConnection RMDBconnection = null;
-					OleDbDataReader dbReader = null;
-
-					RMDBconnection = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0; User Id=; Password=; Data Source=" + RMDBLocation);
-					RMDBconnection.Open();
-
-					OleDbCommand docketCmd = RMDBconnection.CreateCommand();
-					//Get latest transaction.
-					docketCmd.CommandText = "SELECT docket_id, docket_date, customer_id ,total_inc from Docket where docket_id = " + docket_id.ToString();
-					dbReader = docketCmd.ExecuteReader();
-
-
-					int customer_id = 0;
-					while (dbReader.Read())
-					{
-						latestDocket.local_id = (int)dbReader.GetValue(0);
-						latestDocket.creation_datetime = (DateTime)dbReader.GetValue(1);
-						customer_id = (int)dbReader.GetValue(2);
-						latestDocket.total = (Decimal)dbReader.GetValue(3);
-					}
-
-					dbReader.Close();
-
-					//Get docket items for transaction.
-					docketCmd.CommandText = "SELECT Stock.stock_id, Stock.Barcode  ,print_inc, DocketLine.quantity, Stock.description from DocketLine INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id WHERE docket_id=" + latestDocket.local_id.ToString();
-					dbReader = docketCmd.ExecuteReader();
-					List<LocalDocketItem> tempArray = new List<LocalDocketItem>();
-
-					while (dbReader.Read())
-					{
-						LocalDocketItem newItem = new LocalDocketItem();
-						newItem.product_code = dbReader.GetValue(0).ToString();
-						newItem.product_barcode = dbReader.GetValue(1).ToString();
-						newItem.unit_cost = (Decimal)dbReader.GetValue(2);
-						newItem.quantity = (Double)dbReader.GetValue(3);
-						newItem.description = (string)dbReader.GetValue(4);
-
-						tempArray.Add(newItem);
-					}
-
-					latestDocket.itemList = tempArray.ToArray();
-
-					if (customer_id > 0)
-					{
-						try
-						{
-							LocalCustomer newCustomer = new LocalCustomer();
-
-
-							OleDbCommand CustomerCmd = RMDBconnection.CreateCommand();
-							//Get customer.
-							CustomerCmd.CommandText = "SELECT customer_id, surname, given_names, salutation, mobile, email, postcode, phone, grade, barcode,suburb  from Customer where customer_id = " + customer_id.ToString();
-							dbReader = CustomerCmd.ExecuteReader();
-
-							while (dbReader.Read())
-							{
-								int tempCustomerID = (int)dbReader.GetValue(0);
-								newCustomer.customer_id = tempCustomerID.ToString();
-								newCustomer.last_name = (string)dbReader.GetValue(1);
-								newCustomer.first_name = (string)dbReader.GetValue(2);
-								newCustomer.title = (string)dbReader.GetValue(3);
-								newCustomer.mobile = (string)dbReader.GetValue(4);
-								newCustomer.email = (string)dbReader.GetValue(5);
-								newCustomer.suburb = (string)dbReader.GetValue(10);
-								newCustomer.postcode = (string)dbReader.GetValue(6);
-								newCustomer.phone = (string)dbReader.GetValue(7);
-
-								Int16 grade = (Int16)dbReader.GetValue(8);
-								switch (grade)
-								{
-									case 0:
-										newCustomer.grade = "Default";
-										break;
-									case 1:
-										newCustomer.grade = "A";
-										break;
-									case 2:
-										newCustomer.grade = "B";
-										break;
-									case 3:
-										newCustomer.grade = "C";
-										break;
-									case 4:
-										newCustomer.grade = "D";
-										break;
-									default:
-										newCustomer.grade = "Default";
-										break;
-								}
-								newCustomer.barcode_id = (string)dbReader.GetValue(9);
-
-							}
-							latestDocket.localCustomer = newCustomer;
-							dbReader.Close();
-						}
-						catch (Exception ex)
-						{
-							throw;
-						}
-					}
-
-					RMDBconnection.Close();
-				}
-				catch (Exception ex)
-				{
-					throw;
-				}
+                    LocalDocket latestDocket = GetLocalDocket(docket_id);
 
 				return latestDocket;
 			}
 		}
+
+          private static LocalDocket GetLocalDocket(int docket_id)
+          {
+               string RMDBLocation = Properties.Settings.Default.RMDBLocation;
+               LocalDocket latestDocket = new LocalDocket();
+
+               try
+               {
+                    OleDbConnection RMDBconnection = null;
+                    OleDbDataReader dbReader = null;
+
+                    RMDBconnection = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0; User Id=; Password=; Data Source=" + RMDBLocation);
+                    RMDBconnection.Open();
+
+                    OleDbCommand docketCmd = RMDBconnection.CreateCommand();
+                    //Get latest transaction.
+                    docketCmd.CommandText = "SELECT docket_id, docket_date, customer_id ,total_inc from Docket where docket_id = " + docket_id.ToString();
+                    dbReader = docketCmd.ExecuteReader();
+
+
+                    int customer_id = 0;
+                    while (dbReader.Read())
+                    {
+                         latestDocket.local_id = (int)dbReader.GetValue(0);
+                         latestDocket.creation_datetime = (DateTime)dbReader.GetValue(1);
+                         customer_id = (int)dbReader.GetValue(2);
+                         latestDocket.total = (Decimal)dbReader.GetValue(3);
+                    }
+
+                    dbReader.Close();
+
+                    //Get docket items for transaction.
+                    docketCmd.CommandText = "SELECT Stock.stock_id, Stock.Barcode  , sell_inc , DocketLine.quantity, Stock.description, dept_name, cost_ex, sell_ex from DocketLine INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id INNER JOIN Departments on Stock.dept_id = Departments.dept_id WHERE docket_id=" + latestDocket.local_id.ToString();
+                    dbReader = docketCmd.ExecuteReader();
+                    List<LocalDocketItem> tempArray = new List<LocalDocketItem>();
+
+                    while (dbReader.Read())
+                    {
+                         LocalDocketItem newItem = new LocalDocketItem();
+                         newItem.product_code = dbReader.GetValue(0).ToString();
+                         newItem.product_barcode = dbReader.GetValue(1).ToString();
+                         newItem.unit_cost = (Decimal)dbReader.GetValue(2);
+                         newItem.quantity = (Double)dbReader.GetValue(3);
+                         newItem.description = (string)dbReader.GetValue(4);
+                         newItem.department = (string)dbReader.GetValue(5);
+
+                         newItem.cost_ex = (Decimal)dbReader.GetValue(6);
+                         newItem.sale_ex = (Decimal)dbReader.GetValue(7);
+
+                         tempArray.Add(newItem);
+                    }
+
+                    latestDocket.itemList = tempArray.ToArray();
+
+                    if (customer_id > 0)
+                    {
+                         try
+                         {
+                              LocalCustomer newCustomer = new LocalCustomer();
+
+
+                              OleDbCommand CustomerCmd = RMDBconnection.CreateCommand();
+                              //Get customer.
+                              CustomerCmd.CommandText = "SELECT customer_id, surname, given_names, salutation, mobile, email, postcode, phone, grade, barcode,suburb  from Customer where customer_id = " + customer_id.ToString();
+                              dbReader = CustomerCmd.ExecuteReader();
+
+                              while (dbReader.Read())
+                              {
+                                   int tempCustomerID = (int)dbReader.GetValue(0);
+                                   newCustomer.customer_id = tempCustomerID.ToString();
+                                   newCustomer.last_name = (string)dbReader.GetValue(1);
+                                   newCustomer.first_name = (string)dbReader.GetValue(2);
+                                   newCustomer.title = (string)dbReader.GetValue(3);
+                                   newCustomer.mobile = (string)dbReader.GetValue(4);
+                                   newCustomer.email = (string)dbReader.GetValue(5);
+                                   newCustomer.suburb = (string)dbReader.GetValue(10);
+                                   newCustomer.postcode = (string)dbReader.GetValue(6);
+                                   newCustomer.phone = (string)dbReader.GetValue(7);
+
+                                   Int16 grade = (Int16)dbReader.GetValue(8);
+                                   switch (grade)
+                                   {
+                                        case 0:
+                                             newCustomer.grade = "Default";
+                                             break;
+                                        case 1:
+                                             newCustomer.grade = "A";
+                                             break;
+                                        case 2:
+                                             newCustomer.grade = "B";
+                                             break;
+                                        case 3:
+                                             newCustomer.grade = "C";
+                                             break;
+                                        case 4:
+                                             newCustomer.grade = "D";
+                                             break;
+                                        default:
+                                             newCustomer.grade = "Default";
+                                             break;
+                                   }
+                                   newCustomer.barcode_id = (string)dbReader.GetValue(9);
+
+                              }
+                              latestDocket.localCustomer = newCustomer;
+                              dbReader.Close();
+                         }
+                         catch (Exception ex)
+                         {
+                              throw;
+                         }
+                    }
+
+                    RMDBconnection.Close();
+               }
+               catch (Exception ex)
+               {
+                    throw;
+               }
+               return latestDocket;
+          }
 
 
 		public static List<LocalDocket> GetUnsentDockets()
@@ -185,111 +194,14 @@ namespace DocketPlaceClient
 
 			try
 			{
-				OleDbConnection RMDBconnection = null;
-				OleDbDataReader dbReader = null;
-
-				RMDBconnection = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0; User Id=; Password=; Data Source=" + RMDBLocation);
-				RMDBconnection.Open();
-
-				OleDbCommand docketCmd = RMDBconnection.CreateCommand();
-
-				foreach (LocalDocket item in unsentDockets)
-				{
-					//Get the docket details
-					docketCmd.CommandText = "SELECT docket_id, docket_date, customer_id ,total_inc from Docket where docket_id = " + item.local_id.ToString();
-					dbReader = docketCmd.ExecuteReader();
-
-
-					int customer_id = 0;
-					while (dbReader.Read())
-					{
-						item.local_id = (int)dbReader.GetValue(0);
-						item.creation_datetime = (DateTime)dbReader.GetValue(1);
-						customer_id = (int)dbReader.GetValue(2);
-						item.total = (Decimal)dbReader.GetValue(3);
-					}
-
-					dbReader.Close();
-
-					//Get docket items for transaction.
-					docketCmd.CommandText = "SELECT Stock.stock_id, Stock.Barcode ,print_inc, DocketLine.quantity, Stock.description from DocketLine INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id WHERE docket_id=" + item.local_id.ToString();
-					dbReader = docketCmd.ExecuteReader();
-					List<LocalDocketItem> tempArray = new List<LocalDocketItem>();
-
-					while (dbReader.Read())
-					{
-						LocalDocketItem newItem = new LocalDocketItem();
-						newItem.product_code = dbReader.GetValue(0).ToString();
-						newItem.product_barcode = dbReader.GetValue(1).ToString();
-						newItem.unit_cost = (Decimal)dbReader.GetValue(2);
-						newItem.quantity = (Double)dbReader.GetValue(3);
-						newItem.description = (string)dbReader.GetValue(4);
-
-						tempArray.Add(newItem);
-					}
-					dbReader.Close();
-					item.itemList = tempArray.ToArray();
-
-					if (customer_id > 0)
-					{
-						try
-						{
-							LocalCustomer newCustomer = new LocalCustomer();
-
-
-							OleDbCommand CustomerCmd = RMDBconnection.CreateCommand();
-							//Get customer.
-							CustomerCmd.CommandText = "SELECT customer_id, surname, given_names, salutation, mobile, email, postcode, phone, grade, barcode, suburb  from Customer where customer_id = " + customer_id.ToString();
-							dbReader = CustomerCmd.ExecuteReader();
-
-							while (dbReader.Read())
-							{
-								int tempCustomerID = (int)dbReader.GetValue(0);
-								newCustomer.customer_id = tempCustomerID.ToString();
-
-								newCustomer.last_name = (string)dbReader.GetValue(1);
-								newCustomer.first_name = (string)dbReader.GetValue(2);
-								newCustomer.title = (string)dbReader.GetValue(3);
-								newCustomer.mobile = (string)dbReader.GetValue(4);
-								newCustomer.email = (string)dbReader.GetValue(5);
-								newCustomer.suburb = (string)dbReader.GetValue(10);
-								newCustomer.postcode = (string)dbReader.GetValue(6);
-								newCustomer.phone = (string)dbReader.GetValue(7);
-
-								Int16 grade = (Int16)dbReader.GetValue(8);
-								switch (grade)
-								{
-									case 0:
-										newCustomer.grade = "Default";
-										break;
-									case 1:
-										newCustomer.grade = "A";
-										break;
-									case 2:
-										newCustomer.grade = "B";
-										break;
-									case 3:
-										newCustomer.grade = "C";
-										break;
-									case 4:
-										newCustomer.grade = "D";
-										break;
-									default:
-										newCustomer.grade = "Default";
-										break;
-								}
-								newCustomer.barcode_id = (string)dbReader.GetValue(9);
-							}
-							item.localCustomer = newCustomer;
-							dbReader.Close();
-						}
-						catch (Exception ex)
-						{
-							throw;
-						}
-					}
-				}
-				RMDBconnection.Close();
+                    foreach (LocalDocket item in unsentDockets)
+                    {
+                         var tempItem = GetLocalDocket(item.local_id);
+                         item.total = tempItem.total;
+                         item.itemList = tempItem.itemList;
+                         item.localCustomer = tempItem.localCustomer;
+                         item.creation_datetime = tempItem.creation_datetime;
+                    }
 			}
 			catch
 			{

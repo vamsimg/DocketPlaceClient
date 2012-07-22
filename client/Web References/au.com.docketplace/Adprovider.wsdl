@@ -47,7 +47,10 @@
           <s:element minOccurs="0" maxOccurs="1" name="product_code" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="product_barcode" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="department" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="unit_cost" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="cost_ex" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="sale_ex" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="quantity" type="s:double" />
         </s:sequence>
       </s:complexType>
@@ -369,10 +372,10 @@
   </wsdl:binding>
   <wsdl:service name="AdProvider">
     <wsdl:port name="AdProviderSoap" binding="tns:AdProviderSoap">
-      <soap:address location="https://docketplace.com.au/Adprovider.asmx" />
+      <soap:address location="http://testdocketc.web705.discountasp.net/Adprovider.asmx" />
     </wsdl:port>
     <wsdl:port name="AdProviderSoap12" binding="tns:AdProviderSoap12">
-      <soap12:address location="https://docketplace.com.au/Adprovider.asmx" />
+      <soap12:address location="http://testdocketc.web705.discountasp.net/Adprovider.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

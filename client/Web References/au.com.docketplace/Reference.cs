@@ -45,7 +45,7 @@ namespace DocketPlaceClient.au.com.docketplace {
         
         /// <remarks/>
         public AdProvider() {
-            this.Url = "https://docketplace.com.au/Adprovider.asmx";
+            this.Url = "http://testdocketc.web705.discountasp.net/Adprovider.asmx";
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -440,7 +440,13 @@ namespace DocketPlaceClient.au.com.docketplace {
         
         private string descriptionField;
         
+        private string departmentField;
+        
         private decimal unit_costField;
+        
+        private decimal cost_exField;
+        
+        private decimal sale_exField;
         
         private double quantityField;
         
@@ -475,12 +481,42 @@ namespace DocketPlaceClient.au.com.docketplace {
         }
         
         /// <remarks/>
+        public string department {
+            get {
+                return this.departmentField;
+            }
+            set {
+                this.departmentField = value;
+            }
+        }
+        
+        /// <remarks/>
         public decimal unit_cost {
             get {
                 return this.unit_costField;
             }
             set {
                 this.unit_costField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal cost_ex {
+            get {
+                return this.cost_exField;
+            }
+            set {
+                this.cost_exField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal sale_ex {
+            get {
+                return this.sale_exField;
+            }
+            set {
+                this.sale_exField = value;
             }
         }
         

@@ -343,6 +343,7 @@
 		<row><td>DocketPlaceClient.Content_Files</td><td>{524F0297-AEF4-4273-A7C8-0FDCF8EC5FB5}</td><td>INSTALLDIR</td><td>2</td><td/><td>docketplaceclient.content_fi</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>DocketPlaceClient.Primary_output</td><td>{990F2C36-9A1F-4E65-ABC9-4D5C3C36925B}</td><td>INSTALLDIR</td><td>2</td><td/><td>docketplaceclient.primary_ou</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>DocketPlaceClient.XML_Serialization_Assemblies</td><td>{EF69F742-C2BA-4A89-9BBA-2009B7484E75}</td><td>INSTALLDIR</td><td>2</td><td/><td>docketplaceclient.xml_serial</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td>{97428843-8D5C-4DC5-98FA-025E416A6560}</td><td>WindowsVolume</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{9D39D9D6-E7C0-4EC5-A93A-91060F6F54B0}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent1</td><td>{659A396E-389B-4C3A-84B4-44F8D78E9826}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent2</td><td>{0C46B2E9-809E-4224-AECA-1DDB2C6233B2}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1058,6 +1059,7 @@
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent1</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent2</td></row>
+		<row><td>WindowsVolume</td><td>ISX_DEFAULTCOMPONENT</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1143,7 +1145,7 @@
 		<row><td>CommonAppDataFolder</td><td>TARGETDIR</td><td>.:Common~1|CommonAppData</td><td/><td>0</td><td/></row>
 		<row><td>CommonFilesFolder</td><td>TARGETDIR</td><td>.:Common</td><td/><td>0</td><td/></row>
 		<row><td>DATABASEDIR</td><td>ISYourDataBaseDir</td><td>.</td><td/><td>0</td><td/></row>
-		<row><td>DOCKETPLACE</td><td>ProgramFilesFolder</td><td>DOCKET~1|DocketPlace</td><td/><td>0</td><td/></row>
+		<row><td>DOCKETPLACE</td><td>WindowsVolume</td><td>DOCKET~1|DocketPlace</td><td/><td>0</td><td/></row>
 		<row><td>DOCKETPLACE1</td><td>DOCKETPLACE</td><td>DOCKET~1|DocketPlace</td><td/><td>0</td><td/></row>
 		<row><td>DesktopFolder</td><td>TARGETDIR</td><td>.:Desktop</td><td/><td>3</td><td/></row>
 		<row><td>FavoritesFolder</td><td>TARGETDIR</td><td>.:FAVORI~1|Favorites</td><td/><td>0</td><td/></row>
@@ -1872,6 +1874,7 @@
 		<row><td>AlwaysInstall</td><td>DocketPlaceClient.Content_Files</td></row>
 		<row><td>AlwaysInstall</td><td>DocketPlaceClient.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>DocketPlaceClient.XML_Serialization_Assemblies</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent1</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent2</td></row>
@@ -2155,6 +2158,7 @@
 		<row><td>DocketPlaceClient.Content_Files</td><td/><td/><td>_6E5CC554_32B8_44E4_8F9B_1D81C3A760C6_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>DocketPlaceClient.Primary_output</td><td/><td/><td>_0DDB7B77_57DD_4EFF_A593_A34CE27DDE2C_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>DocketPlaceClient.XML_Serialization_Assemblies</td><td/><td/><td>_F8E27FB3_A5BE_4F4B_994C_E09CE02D5A56_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_6C882D1F_8E18_45AC_9DC7_7898DC8CA42A_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_81AA1D43_992B_4D91_90E2_4ADC6627CB8B_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent1</td><td/><td/><td>_54D30591_1C72_4454_917E_A6A145D389BE_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent2</td><td/><td/><td>_CB40E0D0_07F5_47E3_84B2_6391ACDA85ED_FILTER</td><td/><td/><td/><td/></row>

@@ -267,10 +267,10 @@
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="https://docketplace.com.au/Adprovider.asmx">
+    <WebReferenceUrl Include="http://testdocketc.web705.discountasp.net/Adprovider.asmx">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\au.com.docketplace\</RelPath>
-      <UpdateFromURL>https://docketplace.com.au/Adprovider.asmx</UpdateFromURL>
+      <UpdateFromURL>http://testdocketc.web705.discountasp.net/Adprovider.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
