@@ -99,6 +99,9 @@ namespace DocketPlaceClient
         private Label DefaultAdLabel;
         private OpenFileDialog DefaultAdOpenFileDialog;
         private Button FindDefaultAdButton;
+        private Label StockClassificationLabel;
+        private RadioButton DepCat1RadioButton;
+        private RadioButton Cat1Cat2RadioButton;
         private IContainer components;
 
 		
@@ -155,6 +158,9 @@ namespace DocketPlaceClient
                this.PasswordTextBox = new System.Windows.Forms.TextBox();
                this.CustomersTab = new System.Windows.Forms.TabPage();
                this.POSSoftwareSplitContainer = new System.Windows.Forms.SplitContainer();
+               this.StockClassificationLabel = new System.Windows.Forms.Label();
+               this.DepCat1RadioButton = new System.Windows.Forms.RadioButton();
+               this.Cat1Cat2RadioButton = new System.Windows.Forms.RadioButton();
                this.label2 = new System.Windows.Forms.Label();
                this.ChooseRMDButton = new System.Windows.Forms.Button();
                this.RMLocationLabel = new System.Windows.Forms.Label();
@@ -510,6 +516,9 @@ namespace DocketPlaceClient
                // 
                // POSSoftwareSplitContainer.Panel1
                // 
+               this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.StockClassificationLabel);
+               this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.DepCat1RadioButton);
+               this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.Cat1Cat2RadioButton);
                this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.label2);
                this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.ChooseRMDButton);
                this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.RMLocationLabel);
@@ -535,6 +544,39 @@ namespace DocketPlaceClient
                this.POSSoftwareSplitContainer.Size = new System.Drawing.Size(526, 296);
                this.POSSoftwareSplitContainer.SplitterDistance = 99;
                this.POSSoftwareSplitContainer.TabIndex = 47;
+               // 
+               // StockClassificationLabel
+               // 
+               this.StockClassificationLabel.AutoSize = true;
+               this.StockClassificationLabel.Location = new System.Drawing.Point(13, 76);
+               this.StockClassificationLabel.Name = "StockClassificationLabel";
+               this.StockClassificationLabel.Size = new System.Drawing.Size(99, 13);
+               this.StockClassificationLabel.TabIndex = 37;
+               this.StockClassificationLabel.Text = "Stock Classification";
+               // 
+               // DepCat1RadioButton
+               // 
+               this.DepCat1RadioButton.AutoSize = true;
+               this.DepCat1RadioButton.Location = new System.Drawing.Point(279, 74);
+               this.DepCat1RadioButton.Name = "DepCat1RadioButton";
+               this.DepCat1RadioButton.Size = new System.Drawing.Size(133, 17);
+               this.DepCat1RadioButton.TabIndex = 36;
+               this.DepCat1RadioButton.TabStop = true;
+               this.DepCat1RadioButton.Text = "Department/Category1";
+               this.DepCat1RadioButton.UseVisualStyleBackColor = true;
+               this.DepCat1RadioButton.CheckedChanged += new System.EventHandler(this.DepCat1RadioButton_CheckedChanged);
+               // 
+               // Cat1Cat2RadioButton
+               // 
+               this.Cat1Cat2RadioButton.AutoSize = true;
+               this.Cat1Cat2RadioButton.Location = new System.Drawing.Point(131, 74);
+               this.Cat1Cat2RadioButton.Name = "Cat1Cat2RadioButton";
+               this.Cat1Cat2RadioButton.Size = new System.Drawing.Size(126, 17);
+               this.Cat1Cat2RadioButton.TabIndex = 35;
+               this.Cat1Cat2RadioButton.TabStop = true;
+               this.Cat1Cat2RadioButton.Text = "Category1/Category2";
+               this.Cat1Cat2RadioButton.UseVisualStyleBackColor = true;
+               this.Cat1Cat2RadioButton.CheckedChanged += new System.EventHandler(this.Cat1Cat2RadioButton_CheckedChanged);
                // 
                // label2
                // 
@@ -1037,6 +1079,8 @@ namespace DocketPlaceClient
 					RewardsErrorLabel.Text = "Check RetailManager database location";
 				}
 
+                    Cat1Cat2RadioButton.Checked = Properties.Settings.Default.CategoriesOnly;
+                    DepCat1RadioButton.Checked = !Properties.Settings.Default.CategoriesOnly;
 			}
 			else if (Properties.Settings.Default.POSSoftware == "Microsoft")
 			{
@@ -1272,7 +1316,7 @@ namespace DocketPlaceClient
                     if (new_response.is_error)
                     {
 					AddLog(new_response.status,false);
-					PrintDefaulltLocalAd();
+                         PrintLocalDefaultImage(actualPrinter);
                     }
                     else
                     {
@@ -1296,10 +1340,11 @@ namespace DocketPlaceClient
 						{
 							actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n");
 							Bitmap ADimg = Helpers.ConvertPNGDataToBitmap(item.imageData);
-							string directory = System.Environment.CurrentDirectory;
-							ADimg.Save("temp.bmp", ImageFormat.Bmp);
+                                   string directory = Application.StartupPath;
+                                   string fileName = directory + @"/temp.bmp"; 
+							ADimg.Save( fileName, ImageFormat.Bmp);
 
-							actualPrinter.PrintBitmap(PrinterStation.Receipt, "temp.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
+							actualPrinter.PrintBitmap(PrinterStation.Receipt, fileName, PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
 							actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n");
 							actualPrinter.PrintNormal(PrinterStation.Receipt, item.footer);
 						}
@@ -1345,12 +1390,14 @@ namespace DocketPlaceClient
                try
                {
                     Image Dummy = Image.FromFile(Properties.Settings.Default.DefaultAd);
+                    string directory = Application.StartupPath;
+                    string fileName = directory + @"/default.bmp"; 
 
                     Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
                    
-                    ADimg.Save("default.bmp", ImageFormat.Bmp);
+                    ADimg.Save(fileName, ImageFormat.Bmp);
 
-                    actualPrinter.PrintBitmap(PrinterStation.Receipt, "default.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
+                    actualPrinter.PrintBitmap(PrinterStation.Receipt, fileName, PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
                }
                catch (Exception ex)
                {
@@ -1484,7 +1531,9 @@ namespace DocketPlaceClient
 				{
 					is_valid = true;
 					Properties.Settings.Default.POSSoftware = "MYOB";
-					Properties.Settings.Default.RMDBLocation = RMDBTextBox.Text;					
+					Properties.Settings.Default.RMDBLocation = RMDBTextBox.Text;
+
+                         Properties.Settings.Default.CategoriesOnly = Cat1Cat2RadioButton.Checked;
 				}
 			}
 			else if (MicrosoftRMSRadioButton.Checked)
@@ -1610,12 +1659,16 @@ namespace DocketPlaceClient
                     try
                     {
                          Image Dummy = Image.FromFile(Properties.Settings.Default.DefaultAd);
+                         string directory = Application.StartupPath;
+                         string fileName = directory + @"/default.bmp";
 
                          Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
 
-                         ADimg.Save("default.bmp", ImageFormat.Bmp);
+                         ADimg.Save(fileName, ImageFormat.Bmp);
+                         
+                      
 
-                         actualPrinter.PrintBitmap(PrinterStation.Receipt, "default.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);                       
+                         actualPrinter.PrintBitmap(PrinterStation.Receipt, fileName, PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);                       
                     }
                     catch (Exception ex)
                     {
@@ -1972,6 +2025,24 @@ namespace DocketPlaceClient
 		
 
 		#endregion
+
+          private void Cat1Cat2RadioButton_CheckedChanged(object sender, EventArgs e)
+          {
+               if (Cat1Cat2RadioButton.Checked)
+               {
+                    DepCat1RadioButton.Checked = false;
+               }
+          }
+
+          private void DepCat1RadioButton_CheckedChanged(object sender, EventArgs e)
+          {
+               if (DepCat1RadioButton.Checked)
+               {
+                    Cat1Cat2RadioButton.Checked = false;
+               }
+          }
+
+       
 
         
 

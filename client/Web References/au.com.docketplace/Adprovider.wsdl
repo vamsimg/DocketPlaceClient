@@ -48,9 +48,10 @@
           <s:element minOccurs="0" maxOccurs="1" name="product_barcode" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="department" type="s:string" />
-          <s:element minOccurs="1" maxOccurs="1" name="unit_cost" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="category" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="cost_ex" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="sale_ex" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="sale_inc" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="quantity" type="s:double" />
         </s:sequence>
       </s:complexType>

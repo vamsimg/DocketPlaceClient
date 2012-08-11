@@ -224,5 +224,17 @@ namespace DocketPlaceClient.Properties {
                 this["DefaultAd"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CategoriesOnly {
+            get {
+                return ((bool)(this["CategoriesOnly"]));
+            }
+            set {
+                this["CategoriesOnly"] = value;
+            }
+        }
     }
 }

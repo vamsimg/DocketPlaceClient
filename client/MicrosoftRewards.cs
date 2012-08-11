@@ -110,7 +110,13 @@ namespace DocketPlaceClient
 
 
 				//Get docket items for transaction.
-                    selectCommand.CommandText = "SELECT Item.ID, Item.ItemLookupCode ,TransactionEntry.price, TransactionEntry.quantity, Item.description, Department.Name, TransactionEntry.Cost, (TransactionEntry.price - TransactionEntry.SalesTax) as sale_ex  from TransactionEntry INNER JOIN Item ON TransactionEntry.ItemID = Item.ID INNER JOIN Department ON Item.DepartmentID = Department.ID WHERE TransactionNumber =" + latestDocket.local_id.ToString();
+                    selectCommand.CommandText = @"SELECT Item.ID, Item.ItemLookupCode ,TransactionEntry.price, TransactionEntry.quantity, 
+		                                        Item.description, Department.Name as department, Category.Name as category ,
+		                                        TransactionEntry.Cost, (TransactionEntry.price - TransactionEntry.SalesTax) as sale_ex  
+                                                  from TransactionEntry INNER JOIN Item ON TransactionEntry.ItemID = Item.ID 
+                                                  INNER JOIN Department ON Item.DepartmentID = Department.ID 
+                                                  INNER JOIN Category ON Item.CategoryID = Category.ID 
+                                                  where TransactionNumber = " + latestDocket.local_id.ToString();
 
 				SqlDataReader itemDataReader = selectCommand.ExecuteReader();
 
@@ -121,14 +127,17 @@ namespace DocketPlaceClient
 					LocalDocketItem newItem = new LocalDocketItem();
 					newItem.product_code = Convert.ToInt32(itemDataReader["ID"]).ToString();
 					newItem.product_barcode = (string)itemDataReader["ItemLookupCode"];
-					newItem.unit_cost = (Decimal)itemDataReader["price"];
+					newItem.sale_inc = (Decimal)itemDataReader["price"];
 					newItem.quantity = (Double)itemDataReader["quantity"];
 					newItem.description = (string)itemDataReader["description"];
                          newItem.department = (string)itemDataReader["Name"];
 
                          newItem.cost_ex = (Decimal)itemDataReader["Cost"];
                          newItem.sale_ex = (Decimal)itemDataReader["sale_ex"];
-                         
+
+                         newItem.department = (string)itemDataReader["department"];
+                         newItem.category = (string)itemDataReader["category"];
+
                          tempArray.Add(newItem);
 				}
 
@@ -143,7 +152,9 @@ namespace DocketPlaceClient
 						LocalCustomer newCustomer = new LocalCustomer();
 
 						//Get customer.
-						selectCommand.CommandText = "SELECT ID, LastName, FirstName, Title, PhoneNumber, EmailAddress, ZIP, City, AccountNumber from Customer where ID= " + customer_id.ToString();
+						selectCommand.CommandText = @"SELECT ID, LastName, FirstName, Title, PhoneNumber, EmailAddress, ZIP, City, AccountNumber 
+                                                            FROM Customer 
+                                                            WHERE ID= " + customer_id.ToString();
 						SqlDataReader customerDataReader = selectCommand.ExecuteReader(CommandBehavior.SingleRow);
 
 						while (customerDataReader.Read())

@@ -442,11 +442,13 @@ namespace DocketPlaceClient.au.com.docketplace {
         
         private string departmentField;
         
-        private decimal unit_costField;
+        private string categoryField;
         
         private decimal cost_exField;
         
         private decimal sale_exField;
+        
+        private decimal sale_incField;
         
         private double quantityField;
         
@@ -491,12 +493,12 @@ namespace DocketPlaceClient.au.com.docketplace {
         }
         
         /// <remarks/>
-        public decimal unit_cost {
+        public string category {
             get {
-                return this.unit_costField;
+                return this.categoryField;
             }
             set {
-                this.unit_costField = value;
+                this.categoryField = value;
             }
         }
         
@@ -517,6 +519,16 @@ namespace DocketPlaceClient.au.com.docketplace {
             }
             set {
                 this.sale_exField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal sale_inc {
+            get {
+                return this.sale_incField;
+            }
+            set {
+                this.sale_incField = value;
             }
         }
         

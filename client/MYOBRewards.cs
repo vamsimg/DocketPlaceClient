@@ -95,7 +95,21 @@ namespace DocketPlaceClient
                     dbReader.Close();
 
                     //Get docket items for transaction.
-                    docketCmd.CommandText = "SELECT Stock.stock_id, Stock.Barcode  , sell_inc , DocketLine.quantity, Stock.description, dept_name, cost_ex, sell_ex from DocketLine INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id INNER JOIN Departments on Stock.dept_id = Departments.dept_id WHERE docket_id=" + latestDocket.local_id.ToString();
+                    if (Properties.Settings.Default.CategoriesOnly)
+                    {
+                         docketCmd.CommandText = @"SELECT Stock.stock_id, Stock.Barcode  , sell_inc , DocketLine.quantity, Stock.description, cost_ex, sell_ex, cat1, cat2 
+                                                   FROM DocketLine 
+                                                   INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id 
+                                                   WHERE docket_id=" + latestDocket.local_id.ToString();
+                    }
+                    else
+                    {
+                         docketCmd.CommandText = @"SELECT Stock.stock_id, Stock.Barcode  , sell_inc , DocketLine.quantity, Stock.description, cost_ex, sell_ex, dept_name, cat1 
+                                                   FROM (DocketLine INNER JOIN Stock ON DocketLine.stock_id = Stock.stock_id)
+                                                   INNER JOIN Departments on Stock.dept_id = Departments.dept_id 
+                                                   WHERE docket_id=" + latestDocket.local_id.ToString();
+                    }
+                    
                     dbReader = docketCmd.ExecuteReader();
                     List<LocalDocketItem> tempArray = new List<LocalDocketItem>();
 
@@ -104,13 +118,16 @@ namespace DocketPlaceClient
                          LocalDocketItem newItem = new LocalDocketItem();
                          newItem.product_code = dbReader.GetValue(0).ToString();
                          newItem.product_barcode = dbReader.GetValue(1).ToString();
-                         newItem.unit_cost = (Decimal)dbReader.GetValue(2);
+                         newItem.sale_inc = (Decimal)dbReader.GetValue(2);
                          newItem.quantity = (Double)dbReader.GetValue(3);
                          newItem.description = (string)dbReader.GetValue(4);
-                         newItem.department = (string)dbReader.GetValue(5);
+                         
 
-                         newItem.cost_ex = (Decimal)dbReader.GetValue(6);
-                         newItem.sale_ex = (Decimal)dbReader.GetValue(7);
+                         newItem.cost_ex = (Decimal)dbReader.GetValue(5);
+                         newItem.sale_ex = (Decimal)dbReader.GetValue(6);
+
+                         newItem.department = (string)dbReader.GetValue(7);
+                         newItem.category = (string)dbReader.GetValue(8);
 
                          tempArray.Add(newItem);
                     }
@@ -126,7 +143,9 @@ namespace DocketPlaceClient
 
                               OleDbCommand CustomerCmd = RMDBconnection.CreateCommand();
                               //Get customer.
-                              CustomerCmd.CommandText = "SELECT customer_id, surname, given_names, salutation, mobile, email, postcode, phone, grade, barcode,suburb  from Customer where customer_id = " + customer_id.ToString();
+                              CustomerCmd.CommandText = @"SELECT customer_id, surname, given_names, salutation, mobile, email, postcode, phone, grade, barcode,suburb  
+                                                          FROM Customer 
+                                                          WHERE customer_id = " + customer_id.ToString();
                               dbReader = CustomerCmd.ExecuteReader();
 
                               while (dbReader.Read())
