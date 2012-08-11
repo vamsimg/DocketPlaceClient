@@ -110,10 +110,16 @@ namespace DocketPlaceClient
 
 
 				//Get docket items for transaction.
-                    selectCommand.CommandText = @"SELECT Item.ID, Item.ItemLookupCode ,TransactionEntry.price, TransactionEntry.quantity, 
-		                                        Item.description, Department.Name as department, Category.Name as category ,
-		                                        TransactionEntry.Cost, (TransactionEntry.price - TransactionEntry.SalesTax) as sale_ex  
-                                                  from TransactionEntry INNER JOIN Item ON TransactionEntry.ItemID = Item.ID 
+                    selectCommand.CommandText = @"SELECT Item.ID, 
+                                                         Item.ItemLookupCode ,
+                                                         TransactionEntry.price, 
+                                                         TransactionEntry.quantity, 
+		                                               Item.description, 
+                                                         Department.Name as department, 
+                                                         Category.Name as category ,
+		                                               TransactionEntry.Cost, 
+                                                         (TransactionEntry.price - TransactionEntry.SalesTax) as sale_ex                                                    
+                                                  FROM TransactionEntry INNER JOIN Item ON TransactionEntry.ItemID = Item.ID 
                                                   INNER JOIN Department ON Item.DepartmentID = Department.ID 
                                                   INNER JOIN Category ON Item.CategoryID = Category.ID 
                                                   where TransactionNumber = " + latestDocket.local_id.ToString();
@@ -130,14 +136,12 @@ namespace DocketPlaceClient
 					newItem.sale_inc = (Decimal)itemDataReader["price"];
 					newItem.quantity = (Double)itemDataReader["quantity"];
 					newItem.description = (string)itemDataReader["description"];
-                         newItem.department = (string)itemDataReader["Name"];
-
+                         newItem.department = (string)itemDataReader["department"];
+                         newItem.category = (string)itemDataReader["category"];
                          newItem.cost_ex = (Decimal)itemDataReader["Cost"];
                          newItem.sale_ex = (Decimal)itemDataReader["sale_ex"];
 
-                         newItem.department = (string)itemDataReader["department"];
-                         newItem.category = (string)itemDataReader["category"];
-
+                         
                          tempArray.Add(newItem);
 				}
 
