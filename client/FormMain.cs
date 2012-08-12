@@ -71,7 +71,7 @@ namespace DocketPlaceClient
 	   private Button SaveRewardsSettingsButton;
         private Label RewardsErrorLabel;
 	   private Button SyncOfflineButton;
-	   private AxspsnifferLib.AxSerialPortMonitorAx axSerialPortMonitorAx;
+	   
 	   private Label label1;
 	   private Button SyncCustomersButton;
 	   private CheckBox syncCustomersCheckBox;
@@ -102,6 +102,7 @@ namespace DocketPlaceClient
         private Label StockClassificationLabel;
         private RadioButton DepCat1RadioButton;
         private RadioButton Cat1Cat2RadioButton;
+        private AxspsnifferLib.AxSerialPortMonitorAx axSerialPortMonitorAx;
         private IContainer components;
 
 		
@@ -194,8 +195,8 @@ namespace DocketPlaceClient
                this.SendSalesDataCheckBox = new System.Windows.Forms.CheckBox();
                this.RMOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.DPOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
-               this.axSerialPortMonitorAx = new AxspsnifferLib.AxSerialPortMonitorAx();
                this.DefaultAdOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+               this.axSerialPortMonitorAx = new AxspsnifferLib.AxSerialPortMonitorAx();
                this.MainTabControl.SuspendLayout();
                this.PrintTab.SuspendLayout();
                this.ConnectionTab.SuspendLayout();
@@ -872,7 +873,7 @@ namespace DocketPlaceClient
                // axSerialPortMonitorAx
                // 
                this.axSerialPortMonitorAx.Enabled = true;
-               this.axSerialPortMonitorAx.Location = new System.Drawing.Point(3, 617);
+               this.axSerialPortMonitorAx.Location = new System.Drawing.Point(593, 617);
                this.axSerialPortMonitorAx.Name = "axSerialPortMonitorAx";
                this.axSerialPortMonitorAx.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axSerialPortMonitorAx.OcxState")));
                this.axSerialPortMonitorAx.Size = new System.Drawing.Size(32, 32);
