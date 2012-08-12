@@ -1059,7 +1059,7 @@ namespace DocketPlaceClient
 				MYOBRadioButton.Checked = true;
 				MicrosoftRMSRadioButton.Checked = false;
 				ToggleSoftwarePanels(true);
-
+                    
 				RMDBTextBox.Text = Properties.Settings.Default.RMDBLocation;
 
 				if (!String.IsNullOrEmpty(RMDBTextBox.Text) && !String.IsNullOrEmpty(DPDBTextBox.Text))
@@ -1891,7 +1891,7 @@ namespace DocketPlaceClient
 			System.Array buf = e.data as System.Array;
 
 			//Check to see if real receipt data is being sent to the printer. Examples included cash drawer.	
-			if ( buf.Length < 10)
+			if ( buf.Length < 100)
 			{
 				AddLog("Non receipt data",false);
 			}

@@ -36,7 +36,7 @@
       <Value Profile="(Default)">sa</Value>
     </Setting>
     <Setting Name="POSServerPassword" Type="System.String" Scope="User">
-      <Value Profile="(Default)">password</Value>
+      <Value Profile="(Default)">Password1</Value>
     </Setting>
     <Setting Name="POSSoftware" Type="System.String" Scope="User">
       <Value Profile="(Default)">Microsoft</Value>

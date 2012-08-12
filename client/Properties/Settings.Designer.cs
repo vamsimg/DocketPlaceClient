@@ -155,7 +155,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("password")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Password1")]
         public string POSServerPassword {
             get {
                 return ((string)(this["POSServerPassword"]));
