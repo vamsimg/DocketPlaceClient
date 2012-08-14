@@ -49,7 +49,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("22")]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
         public string store_id {
             get {
                 return ((string)(this["store_id"]));
@@ -61,7 +61,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("rfolmlig")]
+        [global::System.Configuration.DefaultSettingValueAttribute("u3lhullg")]
         public string password {
             get {
                 return ((string)(this["password"]));
@@ -131,7 +131,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.0.113")]
         public string POSServerLocation {
             get {
                 return ((string)(this["POSServerLocation"]));
@@ -179,7 +179,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("sample")]
+        [global::System.Configuration.DefaultSettingValueAttribute("sample1")]
         public string POSServerDBName {
             get {
                 return ((string)(this["POSServerDBName"]));

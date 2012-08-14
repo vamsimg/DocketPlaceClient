@@ -76,6 +76,11 @@ namespace DocketPlaceClient
 			}
 		}
 
+          /// <summary>
+          /// TODO Needs better error handling
+          /// </summary>
+          /// <param name="docket_id"></param>
+          /// <returns></returns>
 		private static LocalDocket GetLocalDocket(int docket_id)
 		{
 			LocalDocket latestDocket = new LocalDocket();
@@ -97,7 +102,7 @@ namespace DocketPlaceClient
 				SqlDataReader docketDataReader = selectCommand.ExecuteReader(CommandBehavior.SingleRow);
 
 				int customer_id = 0;
-
+                                        
 				while (docketDataReader.Read())
 				{
 					latestDocket.local_id = (int)docketDataReader["TransactionNumber"];

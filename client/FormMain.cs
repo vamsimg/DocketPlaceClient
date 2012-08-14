@@ -18,6 +18,7 @@ using System.Net.NetworkInformation;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace DocketPlaceClient
 {
@@ -942,7 +943,9 @@ namespace DocketPlaceClient
 			{
 				string logentry = dt.ToLongDateString() + " " + dt.ToLongTimeString() + "\t" + entry + "\r\n";
 
-				string path = System.Environment.CurrentDirectory + "\\log.txt";
+				
+                    string directory = Application.StartupPath;
+                    string path = directory + @"/log.txt"; 
 
 				if (!File.Exists(path))
 				{
@@ -1256,7 +1259,7 @@ namespace DocketPlaceClient
 			{
 				if (axSerialPortMonitorAx.Stop())
 				{
-				Close();
+				     Close();
 				}
 			}
 			else
@@ -1290,18 +1293,16 @@ namespace DocketPlaceClient
             try
             {
                 if (actualPrinter != null)
-                {
-
-				AdProvider provider = new AdProvider();
-                    
+                {                  
 				actualPrinter.Open();
 				
 				AddLog("Printer opened",false);
 
-				actualPrinter.Claim(5000);
+				actualPrinter.Claim(-1);
 				actualPrinter.DeviceEnabled = true;
-				actualPrinter.RecLetterQuality = true;	
+				actualPrinter.RecLetterQuality = true;
 
+                    AdProvider provider = new AdProvider();
                     AdResponse new_response = new AdResponse();
 
                     //Call web service
@@ -1648,17 +1649,16 @@ namespace DocketPlaceClient
 
 		   try
 		   {
-                  
-                    actualPrinter.Open();
+                  if(actualPrinter != null)
+                  {
+                         actualPrinter.Open();
 
-                    AddLog("Printer opened", false);
+                         AddLog("Printer opened", false);
 
-                    actualPrinter.Claim(1000);
-                    actualPrinter.DeviceEnabled = true;
-                    actualPrinter.RecLetterQuality = true;
+                         actualPrinter.Claim(-1);
+                         actualPrinter.DeviceEnabled = true;
+                         actualPrinter.RecLetterQuality = true;
 
-                    try
-                    {
                          Image Dummy = Image.FromFile(Properties.Settings.Default.DefaultAd);
                          string directory = Application.StartupPath;
                          string fileName = directory + @"/default.bmp";
@@ -1669,19 +1669,12 @@ namespace DocketPlaceClient
                          
                       
 
-                         actualPrinter.PrintBitmap(PrinterStation.Receipt, fileName, PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);                       
-                    }
-                    catch (Exception ex)
-                    {
-                         AddLog(ex.ToString(), true);
-                    }
+                         actualPrinter.PrintBitmap(PrinterStation.Receipt, fileName, PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
+                         actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\n\r\n\r\n");
+                         actualPrinter.CutPaper(10);
 
-
-			   actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\n\r\n\r\n");
-			   actualPrinter.CutPaper(10);
-				
-
-			   AddLog("Image printed",false);
+                         AddLog("Image printed",false);
+                  }
 
 		   }
 		   catch (Exception ex)
@@ -1698,6 +1691,7 @@ namespace DocketPlaceClient
 			   actualPrinter.Close();
 		   }
 		}
+          
 
 		private void ChooseRMDButton_Click(object sender, EventArgs e)
 		{
@@ -1899,10 +1893,10 @@ namespace DocketPlaceClient
 			else			
 			{
 				receipt_content = System.Text.Encoding.ASCII.GetString(buf as byte[]);
-				
+                    string cleanContent = CleanString(receipt_content);
 				//Stop Sniffing.	
-				SniffSwitch();				
-
+				SniffSwitch();
+                    
 				if (SendSalesDataCheckBox.Checked)
 				{
 					try
@@ -1914,14 +1908,11 @@ namespace DocketPlaceClient
 							case "MYOB":
 								currentDocket = MYOBRewards.GetLastDocket(receipt_content);
 								break;
-							case "Microsoft":
-								if(TestSQLConnection(MicrosoftLocationTextBox.Text, MicrosoftDBTextBox.Text, MicrosoftUserTextBox.Text, MicrosoftPasswordTextBox.Text))
-								{
-									currentDocket = MicrosoftRewards.GetLastDocket(receipt_content);
-								}								
+							case "Microsoft":								
+								currentDocket = MicrosoftRewards.GetLastDocket(receipt_content);																
 								break;
-						}							
-						
+						}
+                            						
 						if(currentDocket == null)
 						{
 							PrintDefaulltLocalAd();
@@ -1932,7 +1923,7 @@ namespace DocketPlaceClient
 							{
 								AdRequest newRewardsRequest = HydrateAdRequest();
 								
-								currentDocket.receipt_content = Helpers.EncodeToBase64(receipt_content);
+								currentDocket.receipt_content = Helpers.EncodeToBase64(cleanContent);
 								
 								newRewardsRequest.currentDocket = currentDocket;
 									
@@ -1977,7 +1968,7 @@ namespace DocketPlaceClient
 				}
 				//Start Sniffing again.
 				SniffSwitch();
-				AddLog(receipt_content,false);				
+				AddLog(cleanContent,false);				
 			}
 		}
 
@@ -2044,8 +2035,21 @@ namespace DocketPlaceClient
           }
 
        
-
-        
-
+          static public string CleanString(string s)
+          {
+               if (s != null && s.Length > 0)
+               {
+                    StringBuilder sb = new StringBuilder(s.Length);
+                    foreach (char c in s)
+                    {
+                         if (c != (char)1 && c != (char)27 && c != (char)29 && c != (char)2 && c != (char)6 && c != (char)3 && c != (char)5 && c != (char)0)
+                         {
+                              sb.Append(c);
+                         }
+                    }
+                    s = sb.ToString();
+               }
+               return s;
+          }
 	}	
 }		
