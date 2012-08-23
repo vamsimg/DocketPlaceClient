@@ -95,7 +95,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\vamsinator\\Desktop\\docketplaceRewards.mdb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\DocketPlace\\Client\\docketplaceRewards.mdb")]
         public string DPDBLocation {
             get {
                 return ((string)(this["DPDBLocation"]));
@@ -215,7 +215,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\DocketPlace\\Client\\default.png")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\DocketPlace\\Client\\default.png")]
         public string DefaultAd {
             get {
                 return ((string)(this["DefaultAd"]));
@@ -234,6 +234,18 @@ namespace DocketPlaceClient.Properties {
             }
             set {
                 this["CategoriesOnly"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://testdocketc.web705.discountasp.net/Adprovider.asmx")]
+        public string WebService {
+            get {
+                return ((string)(this["WebService"]));
+            }
+            set {
+                this["WebService"] = value;
             }
         }
     }

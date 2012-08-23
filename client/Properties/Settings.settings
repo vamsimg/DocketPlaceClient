@@ -21,7 +21,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DPDBLocation" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\vamsinator\Desktop\docketplaceRewards.mdb</Value>
+      <Value Profile="(Default)">C:\DocketPlace\Client\docketplaceRewards.mdb</Value>
     </Setting>
     <Setting Name="sendSalesData" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -51,10 +51,13 @@
       <Value Profile="(Default)">Transaction #:</Value>
     </Setting>
     <Setting Name="DefaultAd" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Program Files (x86)\DocketPlace\Client\default.png</Value>
+      <Value Profile="(Default)">C:\DocketPlace\Client\default.png</Value>
     </Setting>
     <Setting Name="CategoriesOnly" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="WebService" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://testdocketc.web705.discountasp.net/Adprovider.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>
