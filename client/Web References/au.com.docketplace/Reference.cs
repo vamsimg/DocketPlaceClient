@@ -641,7 +641,7 @@ namespace DocketPlaceClient.au.com.docketplace {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://docketplace.com.au/")]
     public partial class LocalCustomer {
         
-        private string customer_idField;
+        private int customer_idField;
         
         private string mobileField;
         
@@ -664,7 +664,7 @@ namespace DocketPlaceClient.au.com.docketplace {
         private string barcode_idField;
         
         /// <remarks/>
-        public string customer_id {
+        public int customer_id {
             get {
                 return this.customer_idField;
             }

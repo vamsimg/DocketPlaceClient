@@ -149,9 +149,8 @@ namespace DocketPlaceClient
                               dbReader = CustomerCmd.ExecuteReader();
 
                               while (dbReader.Read())
-                              {
-                                   int tempCustomerID = (int)dbReader.GetValue(0);
-                                   newCustomer.customer_id = tempCustomerID.ToString();
+                              {                                   
+                                   newCustomer.customer_id = (int)dbReader.GetValue(0);
                                    newCustomer.last_name = (string)dbReader.GetValue(1);
                                    newCustomer.first_name = (string)dbReader.GetValue(2);
                                    newCustomer.title = (string)dbReader.GetValue(3);
@@ -263,8 +262,8 @@ namespace DocketPlaceClient
 							DateTime modify = (DateTime)dbReader.GetValue(11);
 
 							LocalCustomer newCustomer = new LocalCustomer();
-							int tempCustomerID = (int)dbReader.GetValue(0);
-							newCustomer.customer_id = tempCustomerID.ToString();
+							
+                                   newCustomer.customer_id = (int)dbReader.GetValue(0);
 							newCustomer.last_name = (string)dbReader.GetValue(1);
 							newCustomer.first_name = (string)dbReader.GetValue(2);
 							newCustomer.title = (string)dbReader.GetValue(3);

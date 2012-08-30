@@ -167,9 +167,8 @@ namespace DocketPlaceClient
 						SqlDataReader customerDataReader = selectCommand.ExecuteReader(CommandBehavior.SingleRow);
 
 						while (customerDataReader.Read())
-						{
-							int tempCustomerID = (int)customerDataReader["ID"];
-							newCustomer.customer_id = tempCustomerID.ToString();
+						{							
+                                   newCustomer.customer_id = (int)customerDataReader["ID"];
 							newCustomer.last_name = (string)customerDataReader["LastName"];
 							newCustomer.first_name = (string)customerDataReader["FirstName"];
 							newCustomer.title = (string)customerDataReader["Title"];
@@ -260,8 +259,8 @@ namespace DocketPlaceClient
 						while (customerDataReader.Read())
 						{
 							LocalCustomer modifiedCustomer = new LocalCustomer();
-							int tempCustomerID = (int)customerDataReader["ID"];
-							modifiedCustomer.customer_id = tempCustomerID.ToString();
+							
+                                   modifiedCustomer.customer_id = (int)customerDataReader["ID"];
 							modifiedCustomer.last_name = (string)customerDataReader["LastName"];
 							modifiedCustomer.first_name = (string)customerDataReader["FirstName"];
 							modifiedCustomer.title = (string)customerDataReader["Title"];

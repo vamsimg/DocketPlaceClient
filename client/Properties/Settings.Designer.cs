@@ -74,7 +74,7 @@ namespace DocketPlaceClient.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://docketplace.com.au/Adprovider.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api.docketplace.com.au/Adprovider.asmx")]
         public string DocketPlaceClient_au_com_docketplace_AdProvider {
             get {
                 return ((string)(this["DocketPlaceClient_au_com_docketplace_AdProvider"]));
@@ -95,7 +95,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\DocketPlace\\Client\\docketplaceRewards.mdb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\DocketPlace\\docketplaceRewards.mdb")]
         public string DPDBLocation {
             get {
                 return ((string)(this["DPDBLocation"]));
@@ -215,7 +215,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\DocketPlace\\Client\\default.png")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\DocketPlace\\default.png")]
         public string DefaultAd {
             get {
                 return ((string)(this["DefaultAd"]));
@@ -239,7 +239,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://testdocketc.web705.discountasp.net/Adprovider.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api.docketplace.com.au/Adprovider.asmx")]
         public string WebService {
             get {
                 return ((string)(this["WebService"]));
