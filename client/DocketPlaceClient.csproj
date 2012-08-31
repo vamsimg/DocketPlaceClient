@@ -208,9 +208,6 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\au.com.docketplace\VoucherResponse.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -267,10 +264,10 @@
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://testdocketc.web705.discountasp.net/Adprovider.asmx">
+    <WebReferenceUrl Include="http://staging-api.docketplace.com.au/Adprovider.asmx">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\au.com.docketplace\</RelPath>
-      <UpdateFromURL>http://testdocketc.web705.discountasp.net/Adprovider.asmx</UpdateFromURL>
+      <UpdateFromURL>http://staging-api.docketplace.com.au/Adprovider.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

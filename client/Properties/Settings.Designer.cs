@@ -74,7 +74,7 @@ namespace DocketPlaceClient.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://api.docketplace.com.au/Adprovider.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://staging-api.docketplace.com.au/Adprovider.asmx")]
         public string DocketPlaceClient_au_com_docketplace_AdProvider {
             get {
                 return ((string)(this["DocketPlaceClient_au_com_docketplace_AdProvider"]));
@@ -239,7 +239,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://api.docketplace.com.au/Adprovider.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://staging-api.docketplace.com.au/Adprovider.asmx")]
         public string WebService {
             get {
                 return ((string)(this["WebService"]));

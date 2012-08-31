@@ -1186,6 +1186,7 @@ namespace DocketPlaceClient
 
 
 				AdProvider provider = new AdProvider();
+                    provider.Url = WebServiceTextBox.Text;
 				foreach(LocalDocket item in unsentDockets)
 				{
 					try
@@ -1798,12 +1799,12 @@ namespace DocketPlaceClient
 
 				if (newUpdate.customerList.Count() == 0)
 				{
-					lbLog.AppendText("No customers need to be updated");
+                         AddLog("No customers need to be updated.", false);
 				}
 				else
 				{
 					AdProvider provider = new AdProvider();
-
+                         provider.Url = WebServiceTextBox.Text;
 					CustomerUpdateResponse newResponse = provider.UpdateCustomers(newUpdate);
 
 					if (newResponse.is_error)
@@ -1825,7 +1826,7 @@ namespace DocketPlaceClient
 			catch (Exception ex)
 			{
 				AddLog(ex.ToString(),true);
-				RewardsErrorLabel.Text = "An error has occurred. Please check that you have entered the voucher code correctly.";
+				RewardsErrorLabel.Text = "An error has occurred.Check the log to the left.";
 			}
 		}
 
@@ -1947,9 +1948,7 @@ namespace DocketPlaceClient
 
                                              newRewardsRequest.currentDocket = currentDocket;
 
-                                             printCoupon(false, cleanContent, newRewardsRequest);
-
-                                             //PrintDefaulltLocalAd();
+                                             printCoupon(false, cleanContent, newRewardsRequest);                                             
                                         }
                                         catch (System.Net.WebException ex)
                                         {
@@ -1989,6 +1988,11 @@ namespace DocketPlaceClient
                               }
                          }
 
+                         //Clear the content in case theres any weird non receipt commands sent to printer afterwards.
+                         rawContent = "";
+                         cleanContent = "";
+                         
+                         
                          AddLog("DocketPlace Footer Printed", true);
                          //Start Sniffing again.
                          SniffSwitch();                        

@@ -15,7 +15,7 @@
       <Value Profile="(Default)">u3lhullg</Value>
     </Setting>
     <Setting Name="DocketPlaceClient_au_com_docketplace_AdProvider" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://api.docketplace.com.au/Adprovider.asmx</Value>
+      <Value Profile="(Default)">http://staging-api.docketplace.com.au/Adprovider.asmx</Value>
     </Setting>
     <Setting Name="RMDBLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -57,7 +57,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="WebService" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://api.docketplace.com.au/Adprovider.asmx</Value>
+      <Value Profile="(Default)">http://staging-api.docketplace.com.au/Adprovider.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

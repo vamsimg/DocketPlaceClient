@@ -37,15 +37,13 @@ namespace DocketPlaceClient.au.com.docketplace {
         
         private System.Threading.SendOrPostCallback InsertUnsentDocketOperationCompleted;
         
-        private System.Threading.SendOrPostCallback ValidateVoucherOperationCompleted;
-        
         private System.Threading.SendOrPostCallback UpdateCustomersOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
         public AdProvider() {
-            this.Url = "http://testdocketc.web705.discountasp.net/Adprovider.asmx";
+            this.Url = "http://staging-api.docketplace.com.au/Adprovider.asmx";
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -90,9 +88,6 @@ namespace DocketPlaceClient.au.com.docketplace {
         
         /// <remarks/>
         public event InsertUnsentDocketCompletedEventHandler InsertUnsentDocketCompleted;
-        
-        /// <remarks/>
-        public event ValidateVoucherCompletedEventHandler ValidateVoucherCompleted;
         
         /// <remarks/>
         public event UpdateCustomersCompletedEventHandler UpdateCustomersCompleted;
@@ -208,35 +203,6 @@ namespace DocketPlaceClient.au.com.docketplace {
             if ((this.InsertUnsentDocketCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.InsertUnsentDocketCompleted(this, new InsertUnsentDocketCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://docketplace.com.au/ValidateVoucher", RequestNamespace="http://docketplace.com.au/", ResponseNamespace="http://docketplace.com.au/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public VoucherResponse ValidateVoucher(VoucherCheck new_request) {
-            object[] results = this.Invoke("ValidateVoucher", new object[] {
-                        new_request});
-            return ((VoucherResponse)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void ValidateVoucherAsync(VoucherCheck new_request) {
-            this.ValidateVoucherAsync(new_request, null);
-        }
-        
-        /// <remarks/>
-        public void ValidateVoucherAsync(VoucherCheck new_request, object userState) {
-            if ((this.ValidateVoucherOperationCompleted == null)) {
-                this.ValidateVoucherOperationCompleted = new System.Threading.SendOrPostCallback(this.OnValidateVoucherOperationCompleted);
-            }
-            this.InvokeAsync("ValidateVoucher", new object[] {
-                        new_request}, this.ValidateVoucherOperationCompleted, userState);
-        }
-        
-        private void OnValidateVoucherOperationCompleted(object arg) {
-            if ((this.ValidateVoucherCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.ValidateVoucherCompleted(this, new ValidateVoucherCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -780,120 +746,6 @@ namespace DocketPlaceClient.au.com.docketplace {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://docketplace.com.au/")]
-    public partial class VoucherResponse {
-        
-        private string statusField;
-        
-        private bool is_errorField;
-        
-        private LocalCustomer ownerField;
-        
-        /// <remarks/>
-        public string status {
-            get {
-                return this.statusField;
-            }
-            set {
-                this.statusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool is_error {
-            get {
-                return this.is_errorField;
-            }
-            set {
-                this.is_errorField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public LocalCustomer owner {
-            get {
-                return this.ownerField;
-            }
-            set {
-                this.ownerField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://docketplace.com.au/")]
-    public partial class VoucherCheck {
-        
-        private int store_idField;
-        
-        private string passwordField;
-        
-        private int voucher_idField;
-        
-        private string voucher_codeField;
-        
-        private bool markAsUsedField;
-        
-        /// <remarks/>
-        public int store_id {
-            get {
-                return this.store_idField;
-            }
-            set {
-                this.store_idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string password {
-            get {
-                return this.passwordField;
-            }
-            set {
-                this.passwordField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int voucher_id {
-            get {
-                return this.voucher_idField;
-            }
-            set {
-                this.voucher_idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string voucher_code {
-            get {
-                return this.voucher_codeField;
-            }
-            set {
-                this.voucher_codeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool markAsUsed {
-            get {
-                return this.markAsUsedField;
-            }
-            set {
-                this.markAsUsedField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://docketplace.com.au/")]
     public partial class AdImage {
         
         private string imageDataField;
@@ -1090,32 +942,6 @@ namespace DocketPlaceClient.au.com.docketplace {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((AdResponse)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void ValidateVoucherCompletedEventHandler(object sender, ValidateVoucherCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class ValidateVoucherCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal ValidateVoucherCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public VoucherResponse Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((VoucherResponse)(this.results[0]));
             }
         }
     }
