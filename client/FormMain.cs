@@ -968,9 +968,9 @@ namespace DocketPlaceClient
 			{
 				string logentry = dt.ToLongDateString() + " " + dt.ToLongTimeString() + "\t" + entry + "\r\n";
 
-				
-                    string directory = Application.StartupPath;
-                    string path = directory + @"/log.txt"; 
+
+                    string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                    string path = directory + @"\docketplace_log.txt"; 
 
 				if (!File.Exists(path))
 				{
@@ -1349,6 +1349,7 @@ namespace DocketPlaceClient
                     if (new_response.is_error)
                     {
 					AddLog(new_response.status,false);
+                         RewardsHelper.SaveLastDocket(new_request.currentDocket);
                          PrintLocalDefaultImage(actualPrinter);
                     }
                     else
@@ -1373,7 +1374,7 @@ namespace DocketPlaceClient
 						{
 							actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n");
 							Bitmap ADimg = Helpers.ConvertPNGDataToBitmap(item.imageData);
-                                   string directory = Application.StartupPath;
+                                   string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
                                    string fileName = directory + @"/temp.bmp"; 
 							ADimg.Save( fileName, ImageFormat.Bmp);
 
@@ -1423,7 +1424,7 @@ namespace DocketPlaceClient
                try
                {
                     Image Dummy = Image.FromFile(Properties.Settings.Default.DefaultAd);
-                    string directory = Application.StartupPath;
+                    string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
                     string fileName = directory + @"/default.bmp"; 
 
                     Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
@@ -1507,8 +1508,8 @@ namespace DocketPlaceClient
 				 {
 	                    
 					Properties.Settings.Default.store_id = StoreIDtextBox.Text;
-					Properties.Settings.Default.password = PasswordTextBox.Text;                    
-					
+					Properties.Settings.Default.password = PasswordTextBox.Text;
+                         Properties.Settings.Default.WebService = WebServiceTextBox.Text;	
 	                   
 					Properties.Settings.Default.Save();
 					ConnectionErrorlabel.Text = "Settings saved successfully";
@@ -1696,7 +1697,7 @@ namespace DocketPlaceClient
                          actualPrinter.RecLetterQuality = true;
 
                          Image Dummy = Image.FromFile(Properties.Settings.Default.DefaultAd);
-                         string directory = Application.StartupPath;
+                         string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
                          string fileName = directory + @"/default.bmp";
 
                          Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
