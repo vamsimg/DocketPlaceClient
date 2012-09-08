@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Text;
+using System.IO.Ports;
 
 namespace DocketPlaceClient
 {
@@ -109,6 +110,7 @@ namespace DocketPlaceClient
         private AxspsnifferLib.AxSerialPortMonitorAx axSerialPortMonitorAx;
         private Label ServiceLabel;
         private TextBox WebServiceTextBox;
+        private Button CashDrawerButton;
         private IContainer components;
 
 		
@@ -157,6 +159,8 @@ namespace DocketPlaceClient
                this.cbPort = new System.Windows.Forms.ComboBox();
                this.OPOSlabel = new System.Windows.Forms.Label();
                this.ConnectionTab = new System.Windows.Forms.TabPage();
+               this.WebServiceTextBox = new System.Windows.Forms.TextBox();
+               this.ServiceLabel = new System.Windows.Forms.Label();
                this.ConnectionErrorlabel = new System.Windows.Forms.Label();
                this.StoreIDtextBox = new System.Windows.Forms.TextBox();
                this.SaveConnectionSettingsButton = new System.Windows.Forms.Button();
@@ -203,8 +207,7 @@ namespace DocketPlaceClient
                this.DPOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.DefaultAdOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.axSerialPortMonitorAx = new AxspsnifferLib.AxSerialPortMonitorAx();
-               this.ServiceLabel = new System.Windows.Forms.Label();
-               this.WebServiceTextBox = new System.Windows.Forms.TextBox();
+               this.CashDrawerButton = new System.Windows.Forms.Button();
                this.MainTabControl.SuspendLayout();
                this.PrintTab.SuspendLayout();
                this.ConnectionTab.SuspendLayout();
@@ -294,6 +297,7 @@ namespace DocketPlaceClient
                // 
                // PrintTab
                // 
+               this.PrintTab.Controls.Add(this.CashDrawerButton);
                this.PrintTab.Controls.Add(this.FindDefaultAdButton);
                this.PrintTab.Controls.Add(this.DefaultAdTextBox);
                this.PrintTab.Controls.Add(this.DefaultAdLabel);
@@ -442,6 +446,22 @@ namespace DocketPlaceClient
                this.ConnectionTab.TabIndex = 0;
                this.ConnectionTab.Text = "Connection";
                this.ConnectionTab.UseVisualStyleBackColor = true;
+               // 
+               // WebServiceTextBox
+               // 
+               this.WebServiceTextBox.Location = new System.Drawing.Point(108, 98);
+               this.WebServiceTextBox.Name = "WebServiceTextBox";
+               this.WebServiceTextBox.Size = new System.Drawing.Size(386, 20);
+               this.WebServiceTextBox.TabIndex = 38;
+               // 
+               // ServiceLabel
+               // 
+               this.ServiceLabel.AutoSize = true;
+               this.ServiceLabel.Location = new System.Drawing.Point(13, 101);
+               this.ServiceLabel.Name = "ServiceLabel";
+               this.ServiceLabel.Size = new System.Drawing.Size(69, 13);
+               this.ServiceLabel.TabIndex = 37;
+               this.ServiceLabel.Text = "WebService:";
                // 
                // ConnectionErrorlabel
                // 
@@ -891,21 +911,15 @@ namespace DocketPlaceClient
                this.axSerialPortMonitorAx.OnOpenClose += new AxspsnifferLib._ISerialPortMonitorAxEvents_OnOpenCloseEventHandler(this.axSerialPortMonitorAx_OnOpenClose);
                this.axSerialPortMonitorAx.OnWrite += new AxspsnifferLib._ISerialPortMonitorAxEvents_OnWriteEventHandler(this.axSerialPortMonitorAx_OnWrite);
                // 
-               // ServiceLabel
+               // CashDrawerButton
                // 
-               this.ServiceLabel.AutoSize = true;
-               this.ServiceLabel.Location = new System.Drawing.Point(13, 101);
-               this.ServiceLabel.Name = "ServiceLabel";
-               this.ServiceLabel.Size = new System.Drawing.Size(69, 13);
-               this.ServiceLabel.TabIndex = 37;
-               this.ServiceLabel.Text = "WebService:";
-               // 
-               // WebServiceTextBox
-               // 
-               this.WebServiceTextBox.Location = new System.Drawing.Point(108, 98);
-               this.WebServiceTextBox.Name = "WebServiceTextBox";
-               this.WebServiceTextBox.Size = new System.Drawing.Size(386, 20);
-               this.WebServiceTextBox.TabIndex = 38;
+               this.CashDrawerButton.Location = new System.Drawing.Point(25, 428);
+               this.CashDrawerButton.Name = "CashDrawerButton";
+               this.CashDrawerButton.Size = new System.Drawing.Size(102, 51);
+               this.CashDrawerButton.TabIndex = 45;
+               this.CashDrawerButton.Text = "Open Cash Drawer";
+               this.CashDrawerButton.UseVisualStyleBackColor = true;
+               this.CashDrawerButton.Click += new System.EventHandler(this.button1_Click);
                // 
                // FormMain
                // 
@@ -1910,7 +1924,6 @@ namespace DocketPlaceClient
 			{
                     if (is_realapp && !String.IsNullOrEmpty(cleanContent))                    
 				{
-                         
                          AddLog("DocketPlace Footer", true);
                          
 					is_realapp = false;
@@ -1918,6 +1931,11 @@ namespace DocketPlaceClient
 
                          //Stop Sniffing.	
                          SniffSwitch();
+
+                         if (Properties.Settings.Default.POSSoftware == "Microsoft")
+                         {
+                              TriggerCashDrawer();
+                         }
 
                          if (SendSalesDataCheckBox.Checked)
                          {
@@ -1935,12 +1953,8 @@ namespace DocketPlaceClient
                                              break;
                                    }
 
-                                   if (currentDocket == null)
-                                   {
-                                        PrintDefaulltLocalAd();
-                                   }
-                                   else
-                                   {
+                                   if (currentDocket != null)
+                                   {                                        
                                         try
                                         {
                                              AdRequest newRewardsRequest = HydrateAdRequest();
@@ -2097,6 +2111,37 @@ namespace DocketPlaceClient
                     s = sb.ToString();
                }
                return s;
+          }
+
+          private void button1_Click(object sender, EventArgs e)
+          {
+               TriggerCashDrawer();
+          }
+
+          private void TriggerCashDrawer()
+          {
+               AddLog("Cash Drawer Triggered", false);
+
+               const string ESC = "\x1B";
+               const string p = "\x70";
+               const string NUL = "\x00";
+               const string EM = "\x19";
+
+
+               SerialPort port = new SerialPort(cbPort.Text, 9600, Parity.None, 8, StopBits.One);
+
+               // Open the port for communications
+               port.Open();
+
+
+
+               string drawerSequence = ESC + p + NUL + EM + NUL;
+
+               // Write a string
+               port.Write(drawerSequence);
+
+               // Close the port
+               port.Close();
           }
 	}	
 }		

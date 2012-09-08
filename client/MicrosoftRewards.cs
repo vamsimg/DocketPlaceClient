@@ -20,19 +20,24 @@ namespace DocketPlaceClient
 
 		private static bool CheckIfTaxInvoice(string receipt_content)
 		{
-			string[] lines = Regex.Split(receipt_content, "\n");
-               string[] receiptIdentifiers = Regex.Split(Properties.Settings.Default.ReceiptIdentifiers, ",");
+               if (receipt_content.Contains("Z Report") || receipt_content.Contains("X Report") || receipt_content.Contains("ZZ Report"))
+               {
+                    return false;
+               }
+               else
+               {
+                    
+                    string[] receiptIdentifiers = Regex.Split(Properties.Settings.Default.ReceiptIdentifiers, ",");
 
-			bool isTaxInvoice = false;
-			foreach (string line in lines)
-			{
-                    isTaxInvoice = receiptIdentifiers.ToList().Any(s => line.Contains(s));
-				if (isTaxInvoice)
-				{
-					return isTaxInvoice;
-				}
-			}
-			return isTaxInvoice;
+                    foreach (string receiptIdentifier in receiptIdentifiers)
+                    {
+                         if (receipt_content.Contains(receiptIdentifier))
+                         {
+                              return true;
+                         }
+                    }
+                    return false;
+               }
 		}
 
 		private static int ExtractDocketID(string receipt_content)
