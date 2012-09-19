@@ -146,6 +146,7 @@ namespace DocketPlaceClient
                this.DefaultAdPrintButton = new System.Windows.Forms.Button();
                this.MainTabControl = new System.Windows.Forms.TabControl();
                this.PrintTab = new System.Windows.Forms.TabPage();
+               this.CashDrawerButton = new System.Windows.Forms.Button();
                this.FindDefaultAdButton = new System.Windows.Forms.Button();
                this.DefaultAdTextBox = new System.Windows.Forms.TextBox();
                this.DefaultAdLabel = new System.Windows.Forms.Label();
@@ -207,7 +208,6 @@ namespace DocketPlaceClient
                this.DPOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.DefaultAdOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.axSerialPortMonitorAx = new AxspsnifferLib.AxSerialPortMonitorAx();
-               this.CashDrawerButton = new System.Windows.Forms.Button();
                this.MainTabControl.SuspendLayout();
                this.PrintTab.SuspendLayout();
                this.ConnectionTab.SuspendLayout();
@@ -318,6 +318,17 @@ namespace DocketPlaceClient
                this.PrintTab.TabIndex = 1;
                this.PrintTab.Text = "Print";
                this.PrintTab.UseVisualStyleBackColor = true;
+               // 
+               // CashDrawerButton
+               // 
+               this.CashDrawerButton.Location = new System.Drawing.Point(25, 428);
+               this.CashDrawerButton.Name = "CashDrawerButton";
+               this.CashDrawerButton.Size = new System.Drawing.Size(102, 51);
+               this.CashDrawerButton.TabIndex = 45;
+               this.CashDrawerButton.Text = "Open Cash Drawer";
+               this.CashDrawerButton.UseVisualStyleBackColor = true;
+               this.CashDrawerButton.Visible = false;
+               this.CashDrawerButton.Click += new System.EventHandler(this.button1_Click);
                // 
                // FindDefaultAdButton
                // 
@@ -910,16 +921,6 @@ namespace DocketPlaceClient
                this.axSerialPortMonitorAx.TabIndex = 40;
                this.axSerialPortMonitorAx.OnOpenClose += new AxspsnifferLib._ISerialPortMonitorAxEvents_OnOpenCloseEventHandler(this.axSerialPortMonitorAx_OnOpenClose);
                this.axSerialPortMonitorAx.OnWrite += new AxspsnifferLib._ISerialPortMonitorAxEvents_OnWriteEventHandler(this.axSerialPortMonitorAx_OnWrite);
-               // 
-               // CashDrawerButton
-               // 
-               this.CashDrawerButton.Location = new System.Drawing.Point(25, 428);
-               this.CashDrawerButton.Name = "CashDrawerButton";
-               this.CashDrawerButton.Size = new System.Drawing.Size(102, 51);
-               this.CashDrawerButton.TabIndex = 45;
-               this.CashDrawerButton.Text = "Open Cash Drawer";
-               this.CashDrawerButton.UseVisualStyleBackColor = true;
-               this.CashDrawerButton.Click += new System.EventHandler(this.button1_Click);
                // 
                // FormMain
                // 
@@ -1786,6 +1787,8 @@ namespace DocketPlaceClient
 
 		private void SyncCustomers()
 		{
+               Cursor.Current = Cursors.WaitCursor;
+
 			try
 			{
 				//Check if all fields are filled.
@@ -1820,6 +1823,7 @@ namespace DocketPlaceClient
 				{
 					AdProvider provider = new AdProvider();
                          provider.Url = WebServiceTextBox.Text;
+                         provider.Timeout = 100000000; 
 					CustomerUpdateResponse newResponse = provider.UpdateCustomers(newUpdate);
 
 					if (newResponse.is_error)
@@ -1843,6 +1847,8 @@ namespace DocketPlaceClient
 				AddLog(ex.ToString(),true);
 				RewardsErrorLabel.Text = "An error has occurred.Check the log to the left.";
 			}
+
+               Cursor.Current = Cursors.Default;
 		}
 
           

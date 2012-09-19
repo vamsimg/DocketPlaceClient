@@ -39,7 +39,7 @@
       <Value Profile="(Default)">Password1</Value>
     </Setting>
     <Setting Name="POSSoftware" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Microsoft</Value>
+      <Value Profile="(Default)">MYOB</Value>
     </Setting>
     <Setting Name="POSServerDBName" Type="System.String" Scope="User">
       <Value Profile="(Default)">sample1</Value>

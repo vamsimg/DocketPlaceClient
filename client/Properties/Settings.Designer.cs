@@ -167,7 +167,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft")]
+        [global::System.Configuration.DefaultSettingValueAttribute("MYOB")]
         public string POSSoftware {
             get {
                 return ((string)(this["POSSoftware"]));
