@@ -343,7 +343,9 @@
 		<row><td>DocketPlaceClient.Content_Files</td><td>{524F0297-AEF4-4273-A7C8-0FDCF8EC5FB5}</td><td>INSTALLDIR</td><td>2</td><td/><td>docketplaceclient.content_fi</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>DocketPlaceClient.Primary_output</td><td>{990F2C36-9A1F-4E65-ABC9-4D5C3C36925B}</td><td>INSTALLDIR</td><td>2</td><td/><td>docketplaceclient.primary_ou</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>DocketPlaceClient.XML_Serialization_Assemblies</td><td>{EF69F742-C2BA-4A89-9BBA-2009B7484E75}</td><td>INSTALLDIR</td><td>2</td><td/><td>docketplaceclient.xml_serial</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td>{97428843-8D5C-4DC5-98FA-025E416A6560}</td><td>WindowsVolume</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{9D39D9D6-E7C0-4EC5-A93A-91060F6F54B0}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{EF55B3B2-ECD9-4CDF-BECF-FAD9A9B17030}</td><td>ProgramFilesFolder</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent1</td><td>{659A396E-389B-4C3A-84B4-44F8D78E9826}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NewComponent2</td><td>{0C46B2E9-809E-4224-AECA-1DDB2C6233B2}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Redirector.Primary_output</td><td>{1AE61B4B-7DBF-47D1-824D-93462194C7A2}</td><td>INSTALLDIR</td><td>2</td><td/><td>redirector.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1058,6 +1060,8 @@
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent1</td></row>
 		<row><td>INSTALLDIR</td><td>NewComponent2</td></row>
+		<row><td>ProgramFilesFolder</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>WindowsVolume</td><td>ISX_DEFAULTCOMPONENT</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1149,7 +1153,7 @@
 		<row><td>FavoritesFolder</td><td>TARGETDIR</td><td>.:FAVORI~1|Favorites</td><td/><td>0</td><td/></row>
 		<row><td>FontsFolder</td><td>TARGETDIR</td><td>.:Fonts</td><td/><td>0</td><td/></row>
 		<row><td>GlobalAssemblyCache</td><td>TARGETDIR</td><td>.:Global~1|GlobalAssemblyCache</td><td/><td>0</td><td/></row>
-		<row><td>INSTALLDIR</td><td>CLIENT</td><td>.</td><td/><td>0</td><td/></row>
+		<row><td>INSTALLDIR</td><td>DOCKETPLACE</td><td>.</td><td/><td>0</td><td/></row>
 		<row><td>ISCommonFilesFolder</td><td>CommonFilesFolder</td><td>Instal~1|InstallShield</td><td/><td>0</td><td/></row>
 		<row><td>ISMyCompanyDir</td><td>ProgramFilesFolder</td><td>MYCOMP~1|My Company Name</td><td/><td>0</td><td/></row>
 		<row><td>ISMyProductDir</td><td>ISMyCompanyDir</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
@@ -1872,7 +1876,9 @@
 		<row><td>AlwaysInstall</td><td>DocketPlaceClient.Content_Files</td></row>
 		<row><td>AlwaysInstall</td><td>DocketPlaceClient.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>DocketPlaceClient.XML_Serialization_Assemblies</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent1</td></row>
 		<row><td>AlwaysInstall</td><td>NewComponent2</td></row>
 		<row><td>AlwaysInstall</td><td>Redirector.Primary_output</td></row>
@@ -2155,7 +2161,9 @@
 		<row><td>DocketPlaceClient.Content_Files</td><td/><td/><td>_6E5CC554_32B8_44E4_8F9B_1D81C3A760C6_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>DocketPlaceClient.Primary_output</td><td/><td/><td>_0DDB7B77_57DD_4EFF_A593_A34CE27DDE2C_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>DocketPlaceClient.XML_Serialization_Assemblies</td><td/><td/><td>_F8E27FB3_A5BE_4F4B_994C_E09CE02D5A56_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_6C882D1F_8E18_45AC_9DC7_7898DC8CA42A_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_81AA1D43_992B_4D91_90E2_4ADC6627CB8B_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_BF65B057_101B_4659_AB24_DCB817519BDC_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent1</td><td/><td/><td>_54D30591_1C72_4454_917E_A6A145D389BE_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NewComponent2</td><td/><td/><td>_CB40E0D0_07F5_47E3_84B2_6391ACDA85ED_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Redirector.Primary_output</td><td/><td/><td>_A26668B7_88A7_407B_9EF6_CC49898A0D08_FILTER</td><td/><td/><td/><td/></row>
@@ -3883,7 +3891,7 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>857744882</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>857744882</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>857744882</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>http://www.DocketPlace.com</td><td>0</td><td/><td>857767698</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>http://www.DocketPlace.com.au</td><td>0</td><td/><td>-199219754</td></row>
 		<row><td>ID_STRING2</td><td>1033</td><td>DocketPlace</td><td>0</td><td/><td>857767698</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>DocketPlaceClient</td><td>0</td><td/><td>857745266</td></row>
 		<row><td>ID_STRING5</td><td>1033</td><td>DOCKET~1|DocketPlace</td><td>0</td><td/><td>857782355</td></row>
@@ -4474,6 +4482,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>InstallChoice</td><td>AR</td><td/></row>
 		<row><td>LAUNCHPROGRAM</td><td>1</td><td/></row>
 		<row><td>LAUNCHREADME</td><td>1</td><td/></row>
+		<row><td>MSIFASTINSTALL</td><td>0</td><td/></row>
 		<row><td>Manufacturer</td><td>##COMPANY_NAME##</td><td/></row>
 		<row><td>PIDKEY</td><td/><td/></row>
 		<row><td>PIDTemplate</td><td>12345&lt;###-%%%%%%%&gt;@@@@@</td><td/></row>
@@ -4502,7 +4511,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>ProductCode</td><td>{824936F7-2A31-4E88-A4AB-E143DA0CB19F}</td><td/></row>
 		<row><td>ProductName</td><td>Client</td><td/></row>
-		<row><td>ProductVersion</td><td>1.1</td><td/></row>
+		<row><td>ProductVersion</td><td>2.0</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>

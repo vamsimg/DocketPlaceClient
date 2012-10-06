@@ -20,19 +20,24 @@ namespace DocketPlaceClient
 
 		private static bool CheckIfTaxInvoice(string receipt_content)
 		{
-			string[] lines = Regex.Split(receipt_content, "\n");
-               string[] receiptIdentifiers = Regex.Split(Properties.Settings.Default.ReceiptIdentifiers, ",");
+               if (receipt_content.Contains("Z Report") || receipt_content.Contains("X Report") || receipt_content.Contains("ZZ Report"))
+               {
+                    return false;
+               }
+               else
+               {
+                    
+                    string[] receiptIdentifiers = Regex.Split(Properties.Settings.Default.ReceiptIdentifiers, ",");
 
-			bool isTaxInvoice = false;
-			foreach (string line in lines)
-			{
-                    isTaxInvoice = receiptIdentifiers.ToList().Any(s => line.Contains(s));
-				if (isTaxInvoice)
-				{
-					return isTaxInvoice;
-				}
-			}
-			return isTaxInvoice;
+                    foreach (string receiptIdentifier in receiptIdentifiers)
+                    {
+                         if (receipt_content.Contains(receiptIdentifier))
+                         {
+                              return true;
+                         }
+                    }
+                    return false;
+               }
 		}
 
 		private static int ExtractDocketID(string receipt_content)
@@ -76,6 +81,11 @@ namespace DocketPlaceClient
 			}
 		}
 
+          /// <summary>
+          /// TODO Needs better error handling
+          /// </summary>
+          /// <param name="docket_id"></param>
+          /// <returns></returns>
 		private static LocalDocket GetLocalDocket(int docket_id)
 		{
 			LocalDocket latestDocket = new LocalDocket();
@@ -97,7 +107,7 @@ namespace DocketPlaceClient
 				SqlDataReader docketDataReader = selectCommand.ExecuteReader(CommandBehavior.SingleRow);
 
 				int customer_id = 0;
-
+                                        
 				while (docketDataReader.Read())
 				{
 					latestDocket.local_id = (int)docketDataReader["TransactionNumber"];
@@ -110,7 +120,19 @@ namespace DocketPlaceClient
 
 
 				//Get docket items for transaction.
-				selectCommand.CommandText = "SELECT Item.ID, Item.ItemLookupCode ,TransactionEntry.price, TransactionEntry.quantity, Item.description from TransactionEntry INNER JOIN Item ON TransactionEntry.ItemID = Item.ID WHERE TransactionNumber=" + latestDocket.local_id.ToString();
+                    selectCommand.CommandText = @"SELECT Item.ID, 
+                                                         Item.ItemLookupCode ,
+                                                         TransactionEntry.price, 
+                                                         TransactionEntry.quantity, 
+		                                               Item.description, 
+                                                         Department.Name as department, 
+                                                         Category.Name as category ,
+		                                               TransactionEntry.Cost, 
+                                                         (TransactionEntry.price - TransactionEntry.SalesTax) as sale_ex                                                    
+                                                  FROM TransactionEntry INNER JOIN Item ON TransactionEntry.ItemID = Item.ID 
+                                                  INNER JOIN Department ON Item.DepartmentID = Department.ID 
+                                                  INNER JOIN Category ON Item.CategoryID = Category.ID 
+                                                  where TransactionNumber = " + latestDocket.local_id.ToString();
 
 				SqlDataReader itemDataReader = selectCommand.ExecuteReader();
 
@@ -121,11 +143,16 @@ namespace DocketPlaceClient
 					LocalDocketItem newItem = new LocalDocketItem();
 					newItem.product_code = Convert.ToInt32(itemDataReader["ID"]).ToString();
 					newItem.product_barcode = (string)itemDataReader["ItemLookupCode"];
-					newItem.unit_cost = (Decimal)itemDataReader["price"];
+					newItem.sale_inc = (Decimal)itemDataReader["price"];
 					newItem.quantity = (Double)itemDataReader["quantity"];
 					newItem.description = (string)itemDataReader["description"];
+                         newItem.department = (string)itemDataReader["department"];
+                         newItem.category = (string)itemDataReader["category"];
+                         newItem.cost_ex = (Decimal)itemDataReader["Cost"];
+                         newItem.sale_ex = (Decimal)itemDataReader["sale_ex"];
 
-					tempArray.Add(newItem);
+                         
+                         tempArray.Add(newItem);
 				}
 
 				itemDataReader.Close();
@@ -139,13 +166,14 @@ namespace DocketPlaceClient
 						LocalCustomer newCustomer = new LocalCustomer();
 
 						//Get customer.
-						selectCommand.CommandText = "SELECT ID, LastName, FirstName, Title, PhoneNumber, EmailAddress, ZIP, City, AccountNumber from Customer where ID= " + customer_id.ToString();
+						selectCommand.CommandText = @"SELECT ID, LastName, FirstName, Title, PhoneNumber, EmailAddress, ZIP, City, AccountNumber 
+                                                            FROM Customer 
+                                                            WHERE ID= " + customer_id.ToString();
 						SqlDataReader customerDataReader = selectCommand.ExecuteReader(CommandBehavior.SingleRow);
 
 						while (customerDataReader.Read())
-						{
-							int tempCustomerID = (int)customerDataReader["ID"];
-							newCustomer.customer_id = tempCustomerID.ToString();
+						{							
+                                   newCustomer.customer_id = (int)customerDataReader["ID"];
 							newCustomer.last_name = (string)customerDataReader["LastName"];
 							newCustomer.first_name = (string)customerDataReader["FirstName"];
 							newCustomer.title = (string)customerDataReader["Title"];
@@ -236,8 +264,8 @@ namespace DocketPlaceClient
 						while (customerDataReader.Read())
 						{
 							LocalCustomer modifiedCustomer = new LocalCustomer();
-							int tempCustomerID = (int)customerDataReader["ID"];
-							modifiedCustomer.customer_id = tempCustomerID.ToString();
+							
+                                   modifiedCustomer.customer_id = (int)customerDataReader["ID"];
 							modifiedCustomer.last_name = (string)customerDataReader["LastName"];
 							modifiedCustomer.first_name = (string)customerDataReader["FirstName"];
 							modifiedCustomer.title = (string)customerDataReader["Title"];

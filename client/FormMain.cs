@@ -18,6 +18,8 @@ using System.Net.NetworkInformation;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
+using System.Text;
+using System.IO.Ports;
 
 namespace DocketPlaceClient
 {
@@ -27,7 +29,10 @@ namespace DocketPlaceClient
 	public class FormMain : System.Windows.Forms.Form
 	{
         private bool is_realapp = false;
-        
+        private string rawContent = "";
+        private string cleanContent = "";
+       
+       
 
 		private System.Windows.Forms.Button ClearLogButton;
 		private System.Windows.Forms.Button btnExit;
@@ -71,7 +76,7 @@ namespace DocketPlaceClient
 	   private Button SaveRewardsSettingsButton;
         private Label RewardsErrorLabel;
 	   private Button SyncOfflineButton;
-	   private AxspsnifferLib.AxSerialPortMonitorAx axSerialPortMonitorAx;
+	   
 	   private Label label1;
 	   private Button SyncCustomersButton;
 	   private CheckBox syncCustomersCheckBox;
@@ -99,6 +104,13 @@ namespace DocketPlaceClient
         private Label DefaultAdLabel;
         private OpenFileDialog DefaultAdOpenFileDialog;
         private Button FindDefaultAdButton;
+        private Label StockClassificationLabel;
+        private RadioButton DepCat1RadioButton;
+        private RadioButton Cat1Cat2RadioButton;
+        private AxspsnifferLib.AxSerialPortMonitorAx axSerialPortMonitorAx;
+        private Label ServiceLabel;
+        private TextBox WebServiceTextBox;
+        private Button CashDrawerButton;
         private IContainer components;
 
 		
@@ -134,6 +146,7 @@ namespace DocketPlaceClient
                this.DefaultAdPrintButton = new System.Windows.Forms.Button();
                this.MainTabControl = new System.Windows.Forms.TabControl();
                this.PrintTab = new System.Windows.Forms.TabPage();
+               this.CashDrawerButton = new System.Windows.Forms.Button();
                this.FindDefaultAdButton = new System.Windows.Forms.Button();
                this.DefaultAdTextBox = new System.Windows.Forms.TextBox();
                this.DefaultAdLabel = new System.Windows.Forms.Label();
@@ -147,6 +160,8 @@ namespace DocketPlaceClient
                this.cbPort = new System.Windows.Forms.ComboBox();
                this.OPOSlabel = new System.Windows.Forms.Label();
                this.ConnectionTab = new System.Windows.Forms.TabPage();
+               this.WebServiceTextBox = new System.Windows.Forms.TextBox();
+               this.ServiceLabel = new System.Windows.Forms.Label();
                this.ConnectionErrorlabel = new System.Windows.Forms.Label();
                this.StoreIDtextBox = new System.Windows.Forms.TextBox();
                this.SaveConnectionSettingsButton = new System.Windows.Forms.Button();
@@ -155,6 +170,9 @@ namespace DocketPlaceClient
                this.PasswordTextBox = new System.Windows.Forms.TextBox();
                this.CustomersTab = new System.Windows.Forms.TabPage();
                this.POSSoftwareSplitContainer = new System.Windows.Forms.SplitContainer();
+               this.StockClassificationLabel = new System.Windows.Forms.Label();
+               this.DepCat1RadioButton = new System.Windows.Forms.RadioButton();
+               this.Cat1Cat2RadioButton = new System.Windows.Forms.RadioButton();
                this.label2 = new System.Windows.Forms.Label();
                this.ChooseRMDButton = new System.Windows.Forms.Button();
                this.RMLocationLabel = new System.Windows.Forms.Label();
@@ -188,8 +206,8 @@ namespace DocketPlaceClient
                this.SendSalesDataCheckBox = new System.Windows.Forms.CheckBox();
                this.RMOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
                this.DPOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
-               this.axSerialPortMonitorAx = new AxspsnifferLib.AxSerialPortMonitorAx();
                this.DefaultAdOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+               this.axSerialPortMonitorAx = new AxspsnifferLib.AxSerialPortMonitorAx();
                this.MainTabControl.SuspendLayout();
                this.PrintTab.SuspendLayout();
                this.ConnectionTab.SuspendLayout();
@@ -231,7 +249,7 @@ namespace DocketPlaceClient
                // 
                // TestConnectionButton
                // 
-               this.TestConnectionButton.Location = new System.Drawing.Point(25, 208);
+               this.TestConnectionButton.Location = new System.Drawing.Point(16, 239);
                this.TestConnectionButton.Name = "TestConnectionButton";
                this.TestConnectionButton.Size = new System.Drawing.Size(102, 23);
                this.TestConnectionButton.TabIndex = 24;
@@ -279,6 +297,7 @@ namespace DocketPlaceClient
                // 
                // PrintTab
                // 
+               this.PrintTab.Controls.Add(this.CashDrawerButton);
                this.PrintTab.Controls.Add(this.FindDefaultAdButton);
                this.PrintTab.Controls.Add(this.DefaultAdTextBox);
                this.PrintTab.Controls.Add(this.DefaultAdLabel);
@@ -299,6 +318,17 @@ namespace DocketPlaceClient
                this.PrintTab.TabIndex = 1;
                this.PrintTab.Text = "Print";
                this.PrintTab.UseVisualStyleBackColor = true;
+               // 
+               // CashDrawerButton
+               // 
+               this.CashDrawerButton.Location = new System.Drawing.Point(25, 428);
+               this.CashDrawerButton.Name = "CashDrawerButton";
+               this.CashDrawerButton.Size = new System.Drawing.Size(102, 51);
+               this.CashDrawerButton.TabIndex = 45;
+               this.CashDrawerButton.Text = "Open Cash Drawer";
+               this.CashDrawerButton.UseVisualStyleBackColor = true;
+               this.CashDrawerButton.Visible = false;
+               this.CashDrawerButton.Click += new System.EventHandler(this.button1_Click);
                // 
                // FindDefaultAdButton
                // 
@@ -410,6 +440,8 @@ namespace DocketPlaceClient
                // 
                // ConnectionTab
                // 
+               this.ConnectionTab.Controls.Add(this.WebServiceTextBox);
+               this.ConnectionTab.Controls.Add(this.ServiceLabel);
                this.ConnectionTab.Controls.Add(this.ConnectionErrorlabel);
                this.ConnectionTab.Controls.Add(this.StoreIDtextBox);
                this.ConnectionTab.Controls.Add(this.TestStoreConnectionErrorLabel);
@@ -426,12 +458,28 @@ namespace DocketPlaceClient
                this.ConnectionTab.Text = "Connection";
                this.ConnectionTab.UseVisualStyleBackColor = true;
                // 
+               // WebServiceTextBox
+               // 
+               this.WebServiceTextBox.Location = new System.Drawing.Point(108, 98);
+               this.WebServiceTextBox.Name = "WebServiceTextBox";
+               this.WebServiceTextBox.Size = new System.Drawing.Size(386, 20);
+               this.WebServiceTextBox.TabIndex = 38;
+               // 
+               // ServiceLabel
+               // 
+               this.ServiceLabel.AutoSize = true;
+               this.ServiceLabel.Location = new System.Drawing.Point(13, 101);
+               this.ServiceLabel.Name = "ServiceLabel";
+               this.ServiceLabel.Size = new System.Drawing.Size(69, 13);
+               this.ServiceLabel.TabIndex = 37;
+               this.ServiceLabel.Text = "WebService:";
+               // 
                // ConnectionErrorlabel
                // 
                this.ConnectionErrorlabel.AutoSize = true;
                this.ConnectionErrorlabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                this.ConnectionErrorlabel.ForeColor = System.Drawing.Color.Red;
-               this.ConnectionErrorlabel.Location = new System.Drawing.Point(135, 121);
+               this.ConnectionErrorlabel.Location = new System.Drawing.Point(133, 157);
                this.ConnectionErrorlabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
                this.ConnectionErrorlabel.Name = "ConnectionErrorlabel";
                this.ConnectionErrorlabel.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
@@ -447,7 +495,7 @@ namespace DocketPlaceClient
                // 
                // SaveConnectionSettingsButton
                // 
-               this.SaveConnectionSettingsButton.Location = new System.Drawing.Point(25, 116);
+               this.SaveConnectionSettingsButton.Location = new System.Drawing.Point(16, 152);
                this.SaveConnectionSettingsButton.Name = "SaveConnectionSettingsButton";
                this.SaveConnectionSettingsButton.Size = new System.Drawing.Size(87, 23);
                this.SaveConnectionSettingsButton.TabIndex = 34;
@@ -510,6 +558,9 @@ namespace DocketPlaceClient
                // 
                // POSSoftwareSplitContainer.Panel1
                // 
+               this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.StockClassificationLabel);
+               this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.DepCat1RadioButton);
+               this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.Cat1Cat2RadioButton);
                this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.label2);
                this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.ChooseRMDButton);
                this.POSSoftwareSplitContainer.Panel1.Controls.Add(this.RMLocationLabel);
@@ -535,6 +586,39 @@ namespace DocketPlaceClient
                this.POSSoftwareSplitContainer.Size = new System.Drawing.Size(526, 296);
                this.POSSoftwareSplitContainer.SplitterDistance = 99;
                this.POSSoftwareSplitContainer.TabIndex = 47;
+               // 
+               // StockClassificationLabel
+               // 
+               this.StockClassificationLabel.AutoSize = true;
+               this.StockClassificationLabel.Location = new System.Drawing.Point(13, 76);
+               this.StockClassificationLabel.Name = "StockClassificationLabel";
+               this.StockClassificationLabel.Size = new System.Drawing.Size(99, 13);
+               this.StockClassificationLabel.TabIndex = 37;
+               this.StockClassificationLabel.Text = "Stock Classification";
+               // 
+               // DepCat1RadioButton
+               // 
+               this.DepCat1RadioButton.AutoSize = true;
+               this.DepCat1RadioButton.Location = new System.Drawing.Point(279, 74);
+               this.DepCat1RadioButton.Name = "DepCat1RadioButton";
+               this.DepCat1RadioButton.Size = new System.Drawing.Size(133, 17);
+               this.DepCat1RadioButton.TabIndex = 36;
+               this.DepCat1RadioButton.TabStop = true;
+               this.DepCat1RadioButton.Text = "Department/Category1";
+               this.DepCat1RadioButton.UseVisualStyleBackColor = true;
+               this.DepCat1RadioButton.CheckedChanged += new System.EventHandler(this.DepCat1RadioButton_CheckedChanged);
+               // 
+               // Cat1Cat2RadioButton
+               // 
+               this.Cat1Cat2RadioButton.AutoSize = true;
+               this.Cat1Cat2RadioButton.Location = new System.Drawing.Point(131, 74);
+               this.Cat1Cat2RadioButton.Name = "Cat1Cat2RadioButton";
+               this.Cat1Cat2RadioButton.Size = new System.Drawing.Size(126, 17);
+               this.Cat1Cat2RadioButton.TabIndex = 35;
+               this.Cat1Cat2RadioButton.TabStop = true;
+               this.Cat1Cat2RadioButton.Text = "Category1/Category2";
+               this.Cat1Cat2RadioButton.UseVisualStyleBackColor = true;
+               this.Cat1Cat2RadioButton.CheckedChanged += new System.EventHandler(this.Cat1Cat2RadioButton_CheckedChanged);
                // 
                // label2
                // 
@@ -830,7 +914,7 @@ namespace DocketPlaceClient
                // axSerialPortMonitorAx
                // 
                this.axSerialPortMonitorAx.Enabled = true;
-               this.axSerialPortMonitorAx.Location = new System.Drawing.Point(3, 617);
+               this.axSerialPortMonitorAx.Location = new System.Drawing.Point(593, 617);
                this.axSerialPortMonitorAx.Name = "axSerialPortMonitorAx";
                this.axSerialPortMonitorAx.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axSerialPortMonitorAx.OcxState")));
                this.axSerialPortMonitorAx.Size = new System.Drawing.Size(32, 32);
@@ -899,7 +983,9 @@ namespace DocketPlaceClient
 			{
 				string logentry = dt.ToLongDateString() + " " + dt.ToLongTimeString() + "\t" + entry + "\r\n";
 
-				string path = System.Environment.CurrentDirectory + "\\log.txt";
+
+                    string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                    string path = directory + @"\docketplace_log.txt"; 
 
 				if (!File.Exists(path))
 				{
@@ -929,7 +1015,7 @@ namespace DocketPlaceClient
 			//Load Connection settings
 			StoreIDtextBox.Text = Properties.Settings.Default.store_id;
 			PasswordTextBox.Text = Properties.Settings.Default.password;
-			
+               WebServiceTextBox.Text = Properties.Settings.Default.WebService;
 
 
 
@@ -1017,7 +1103,7 @@ namespace DocketPlaceClient
 				MYOBRadioButton.Checked = true;
 				MicrosoftRMSRadioButton.Checked = false;
 				ToggleSoftwarePanels(true);
-
+                    
 				RMDBTextBox.Text = Properties.Settings.Default.RMDBLocation;
 
 				if (!String.IsNullOrEmpty(RMDBTextBox.Text) && !String.IsNullOrEmpty(DPDBTextBox.Text))
@@ -1037,6 +1123,8 @@ namespace DocketPlaceClient
 					RewardsErrorLabel.Text = "Check RetailManager database location";
 				}
 
+                    Cat1Cat2RadioButton.Checked = Properties.Settings.Default.CategoriesOnly;
+                    DepCat1RadioButton.Checked = !Properties.Settings.Default.CategoriesOnly;
 			}
 			else if (Properties.Settings.Default.POSSoftware == "Microsoft")
 			{
@@ -1113,6 +1201,7 @@ namespace DocketPlaceClient
 
 
 				AdProvider provider = new AdProvider();
+                    provider.Url = WebServiceTextBox.Text;
 				foreach(LocalDocket item in unsentDockets)
 				{
 					try
@@ -1185,6 +1274,8 @@ namespace DocketPlaceClient
                 {
                     cbPort.Enabled = true;
                     MonitoringButton.Text = "Start monitoring";
+                    AddLog("Sniffing Off", false);
+
                 }
             }
             else
@@ -1195,6 +1286,7 @@ namespace DocketPlaceClient
                 {
                     cbPort.Enabled = false;
                     MonitoringButton.Text = "Stop monitoring";
+                    AddLog("Sniffing On", false);
                 }
             }           
         }
@@ -1211,7 +1303,7 @@ namespace DocketPlaceClient
 			{
 				if (axSerialPortMonitorAx.Stop())
 				{
-				Close();
+				     Close();
 				}
 			}
 			else
@@ -1245,19 +1337,19 @@ namespace DocketPlaceClient
             try
             {
                 if (actualPrinter != null)
-                {
-
-				AdProvider provider = new AdProvider();
-                    
+                {                  
 				actualPrinter.Open();
 				
 				AddLog("Printer opened",false);
 
 				actualPrinter.Claim(5000);
 				actualPrinter.DeviceEnabled = true;
-				actualPrinter.RecLetterQuality = true;	
+				actualPrinter.RecLetterQuality = true;
 
+                    AdProvider provider = new AdProvider();
                     AdResponse new_response = new AdResponse();
+
+                    provider.Url = WebServiceTextBox.Text;
 
                     //Call web service
                     if (is_test)
@@ -1272,7 +1364,8 @@ namespace DocketPlaceClient
                     if (new_response.is_error)
                     {
 					AddLog(new_response.status,false);
-					PrintDefaulltLocalAd();
+                         RewardsHelper.SaveLastDocket(new_request.currentDocket);
+                         PrintLocalDefaultImage(actualPrinter);
                     }
                     else
                     {
@@ -1296,10 +1389,11 @@ namespace DocketPlaceClient
 						{
 							actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n");
 							Bitmap ADimg = Helpers.ConvertPNGDataToBitmap(item.imageData);
-							string directory = System.Environment.CurrentDirectory;
-							ADimg.Save("temp.bmp", ImageFormat.Bmp);
+                                   string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                                   string fileName = directory + @"/temp.bmp"; 
+							ADimg.Save( fileName, ImageFormat.Bmp);
 
-							actualPrinter.PrintBitmap(PrinterStation.Receipt, "temp.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
+							actualPrinter.PrintBitmap(PrinterStation.Receipt, fileName, PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
 							actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n");
 							actualPrinter.PrintNormal(PrinterStation.Receipt, item.footer);
 						}
@@ -1307,7 +1401,7 @@ namespace DocketPlaceClient
 						actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\nPowered by www.docketplace.com.au");	
 						actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\n\r\n\r\n\r\n\r\n");					   
 						actualPrinter.CutPaper(10);
-
+                              actualPrinter.DeviceEnabled = false;
 						AddLog("Internet Image printed\t" + placedad_id + "\r\n",false);
                         }
                     }
@@ -1333,7 +1427,7 @@ namespace DocketPlaceClient
             finally
             {
                 if (actualPrinter.Claimed)
-                {
+                {                     
                     actualPrinter.Release();
                 }              
                 actualPrinter.Close();                
@@ -1345,12 +1439,14 @@ namespace DocketPlaceClient
                try
                {
                     Image Dummy = Image.FromFile(Properties.Settings.Default.DefaultAd);
+                    string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                    string fileName = directory + @"/default.bmp"; 
 
                     Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
                    
-                    ADimg.Save("default.bmp", ImageFormat.Bmp);
+                    ADimg.Save(fileName, ImageFormat.Bmp);
 
-                    actualPrinter.PrintBitmap(PrinterStation.Receipt, "default.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
+                    actualPrinter.PrintBitmap(PrinterStation.Receipt, fileName, PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
                }
                catch (Exception ex)
                {
@@ -1362,7 +1458,7 @@ namespace DocketPlaceClient
 			actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\n\r\n\r\n");
 			actualPrinter.CutPaper(10);
 			AddLog("Local Image printed",false);
-			AddLog("No internet connection",false);
+			
 		}
 
 		private AdRequest HydrateAdRequest()
@@ -1415,6 +1511,11 @@ namespace DocketPlaceClient
 				 error_message = "Please enter the password for the store ID from the website.";
 				 is_valid = false;
 			  }
+                 else if (WebServiceTextBox.Text == "")
+                 {
+                      error_message = "Please enter URL of the webservice";
+                      is_valid = false;
+                 }
 	            
 			  try
 			  {
@@ -1422,8 +1523,8 @@ namespace DocketPlaceClient
 				 {
 	                    
 					Properties.Settings.Default.store_id = StoreIDtextBox.Text;
-					Properties.Settings.Default.password = PasswordTextBox.Text;                    
-					
+					Properties.Settings.Default.password = PasswordTextBox.Text;
+                         Properties.Settings.Default.WebService = WebServiceTextBox.Text;	
 	                   
 					Properties.Settings.Default.Save();
 					ConnectionErrorlabel.Text = "Settings saved successfully";
@@ -1484,7 +1585,9 @@ namespace DocketPlaceClient
 				{
 					is_valid = true;
 					Properties.Settings.Default.POSSoftware = "MYOB";
-					Properties.Settings.Default.RMDBLocation = RMDBTextBox.Text;					
+					Properties.Settings.Default.RMDBLocation = RMDBTextBox.Text;
+
+                         Properties.Settings.Default.CategoriesOnly = Cat1Cat2RadioButton.Checked;
 				}
 			}
 			else if (MicrosoftRMSRadioButton.Checked)
@@ -1598,36 +1701,32 @@ namespace DocketPlaceClient
 
 		   try
 		   {
-                  
-                    actualPrinter.Open();
+                  if(actualPrinter != null)
+                  {
+                         actualPrinter.Open();
 
-                    AddLog("Printer opened", false);
+                         AddLog("Printer opened", false);
 
-                    actualPrinter.Claim(1000);
-                    actualPrinter.DeviceEnabled = true;
-                    actualPrinter.RecLetterQuality = true;
+                         actualPrinter.Claim(5000);
+                         actualPrinter.DeviceEnabled = true;
+                         actualPrinter.RecLetterQuality = true;
 
-                    try
-                    {
                          Image Dummy = Image.FromFile(Properties.Settings.Default.DefaultAd);
+                         string directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                         string fileName = directory + @"/default.bmp";
 
                          Bitmap ADimg = Helpers.ConvertPNGToBitmap(Dummy);
 
-                         ADimg.Save("default.bmp", ImageFormat.Bmp);
+                         ADimg.Save(fileName, ImageFormat.Bmp);
+                         
+                      
 
-                         actualPrinter.PrintBitmap(PrinterStation.Receipt, "default.bmp", PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);                       
-                    }
-                    catch (Exception ex)
-                    {
-                         AddLog(ex.ToString(), true);
-                    }
-
-
-			   actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\n\r\n\r\n");
-			   actualPrinter.CutPaper(10);
-				
-
-			   AddLog("Image printed",false);
+                         actualPrinter.PrintBitmap(PrinterStation.Receipt, fileName, PosPrinter.PrinterBitmapAsIs, PosPrinter.PrinterBitmapCenter);
+                         actualPrinter.PrintNormal(PrinterStation.Receipt, "\r\n\r\n\r\n\r\n");
+                         actualPrinter.CutPaper(10);
+                         actualPrinter.DeviceEnabled = false;
+                         AddLog("Image printed",false);
+                  }
 
 		   }
 		   catch (Exception ex)
@@ -1644,6 +1743,7 @@ namespace DocketPlaceClient
 			   actualPrinter.Close();
 		   }
 		}
+          
 
 		private void ChooseRMDButton_Click(object sender, EventArgs e)
 		{
@@ -1687,6 +1787,8 @@ namespace DocketPlaceClient
 
 		private void SyncCustomers()
 		{
+               Cursor.Current = Cursors.WaitCursor;
+
 			try
 			{
 				//Check if all fields are filled.
@@ -1715,12 +1817,13 @@ namespace DocketPlaceClient
 
 				if (newUpdate.customerList.Count() == 0)
 				{
-					lbLog.AppendText("No customers need to be updated");
+                         AddLog("No customers need to be updated.", false);
 				}
 				else
 				{
 					AdProvider provider = new AdProvider();
-
+                         provider.Url = WebServiceTextBox.Text;
+                         provider.Timeout = 100000000; 
 					CustomerUpdateResponse newResponse = provider.UpdateCustomers(newUpdate);
 
 					if (newResponse.is_error)
@@ -1742,8 +1845,10 @@ namespace DocketPlaceClient
 			catch (Exception ex)
 			{
 				AddLog(ex.ToString(),true);
-				RewardsErrorLabel.Text = "An error has occurred. Please check that you have entered the voucher code correctly.";
+				RewardsErrorLabel.Text = "An error has occurred.Check the log to the left.";
 			}
+
+               Cursor.Current = Cursors.Default;
 		}
 
           
@@ -1805,7 +1910,7 @@ namespace DocketPlaceClient
 		#region COM Port Events		
 
 		private void axSerialPortMonitorAx_OnOpenClose(object sender, AxspsnifferLib._ISerialPortMonitorAxEvents_OnOpenCloseEvent e)
-			{
+		{
 			AddLog("====================================",false);
 			AddLog("Serial port " + (e.bOpen ? "opened." : "closed"),false);
 			AddLog("====================================",false);
@@ -1819,111 +1924,118 @@ namespace DocketPlaceClient
 				{
 					is_realapp = true;
 				}
+                   
 			}
 			else
 			{
-				AddLog("Printing coupon",false);
-				if (is_realapp)
+                    if (is_realapp && !String.IsNullOrEmpty(cleanContent))                    
 				{
+                         AddLog("DocketPlace Footer", true);
+                         
 					is_realapp = false;
+                         ClearErrorMessages();
+
+                         //Stop Sniffing.	
+                         SniffSwitch();
+
+                         if (Properties.Settings.Default.POSSoftware == "Microsoft")
+                         {
+                              TriggerCashDrawer();
+                         }
+
+                         if (SendSalesDataCheckBox.Checked)
+                         {
+                              try
+                              {
+                                   LocalDocket currentDocket = null;
+
+                                   switch (Properties.Settings.Default.POSSoftware)
+                                   {
+                                        case "MYOB":
+                                             currentDocket = MYOBRewards.GetLastDocket(rawContent);
+                                             break;
+                                        case "Microsoft":
+                                             currentDocket = MicrosoftRewards.GetLastDocket(rawContent);
+                                             break;
+                                   }
+
+                                   if (currentDocket != null)
+                                   {                                        
+                                        try
+                                        {
+                                             AdRequest newRewardsRequest = HydrateAdRequest();
+
+                                             currentDocket.receipt_content = Helpers.EncodeToBase64(cleanContent);
+
+                                             newRewardsRequest.currentDocket = currentDocket;
+
+                                             printCoupon(false, cleanContent, newRewardsRequest);                                             
+                                        }
+                                        catch (System.Net.WebException ex)
+                                        {
+                                             RewardsHelper.SaveLastDocket(currentDocket);
+                                             AddLog(ex.Status.ToString(), true);
+                                             PrintDefaulltLocalAd();
+                                        }
+                                   }
+                              }
+                              catch (Exception ex)
+                              {
+                                   AddLog(ex.ToString(), true);
+                                   PrintDefaulltLocalAd();
+                              }
+                         }
+                         else
+                         {
+                              try
+                              {
+                                   AdRequest newRequest = HydrateAdRequest();
+
+
+                                   LocalDocket nonRewardsDocket = new LocalDocket();
+                                   nonRewardsDocket.creation_datetime = DateTime.Now;
+
+                                   nonRewardsDocket.receipt_content = Helpers.EncodeToBase64(cleanContent);
+
+                                   newRequest.currentDocket = nonRewardsDocket;
+
+
+
+                                   printCoupon(false, cleanContent, newRequest);
+                              }
+                              catch (System.Net.WebException ex)
+                              {
+                                   PrintDefaulltLocalAd();
+                              }
+                         }
+
+                         //Clear the content in case theres any weird non receipt commands sent to printer afterwards.
+                         rawContent = "";
+                         cleanContent = "";
+                         
+                         
+                         AddLog("DocketPlace Footer Printed", true);
+                         //Start Sniffing again.
+                         SniffSwitch();                        
 				}
 			}  
 		}
 
 		private void axSerialPortMonitorAx_OnWrite(object sender, AxspsnifferLib._ISerialPortMonitorAxEvents_OnWriteEvent e)
-		{
-			ClearErrorMessages();
-
-			string receipt_content = "";
+		{	
 			System.Array buf = e.data as System.Array;
 
 			//Check to see if real receipt data is being sent to the printer. Examples included cash drawer.	
-			if ( buf.Length < 10)
+			if ( buf.Length < 500)
 			{
 				AddLog("Non receipt data",false);
 			}
 			else			
 			{
-				receipt_content = System.Text.Encoding.ASCII.GetString(buf as byte[]);
-				
-				//Stop Sniffing.	
-				SniffSwitch();				
+                    rawContent = System.Text.Encoding.ASCII.GetString(buf as byte[]);
+				cleanContent = CleanString(rawContent);
 
-				if (SendSalesDataCheckBox.Checked)
-				{
-					try
-					{
-						LocalDocket currentDocket = null;
-
-						switch (Properties.Settings.Default.POSSoftware)
-						{
-							case "MYOB":
-								currentDocket = MYOBRewards.GetLastDocket(receipt_content);
-								break;
-							case "Microsoft":
-								if(TestSQLConnection(MicrosoftLocationTextBox.Text, MicrosoftDBTextBox.Text, MicrosoftUserTextBox.Text, MicrosoftPasswordTextBox.Text))
-								{
-									currentDocket = MicrosoftRewards.GetLastDocket(receipt_content);
-								}								
-								break;
-						}							
-						
-						if(currentDocket == null)
-						{
-							PrintDefaulltLocalAd();
-						}					
-						else
-						{
-							try
-							{
-								AdRequest newRewardsRequest = HydrateAdRequest();
-								
-								currentDocket.receipt_content = Helpers.EncodeToBase64(receipt_content);
-								
-								newRewardsRequest.currentDocket = currentDocket;
-									
-								printCoupon(false, receipt_content, newRewardsRequest);
-							}
-							catch (System.Net.WebException ex)
-							{
-								RewardsHelper.SaveLastDocket(currentDocket);
-								AddLog(ex.Status.ToString(),true);
-								PrintDefaulltLocalAd();
-							}
-						}	
-					}
-					catch (Exception ex)
-					{
-						AddLog(ex.ToString(),true);
-						PrintDefaulltLocalAd();
-					}
-				}
-				else
-				{
-					try
-					{
-						AdRequest newRequest = HydrateAdRequest();
-						
-						
-						LocalDocket nonRewardsDocket = new LocalDocket();
-						nonRewardsDocket.creation_datetime = DateTime.Now;
-						
-						nonRewardsDocket.receipt_content = Helpers.EncodeToBase64(receipt_content);
-						
-						newRequest.currentDocket = nonRewardsDocket;					
-						
-					
-				
-						printCoupon(false, receipt_content, newRequest);
-					}				
-					catch (System.Net.WebException ex)
-					{
-						PrintDefaulltLocalAd();
-					}						
-				}
-				//Start Sniffing again.
-				SniffSwitch();
-				AddLog(receipt_content,false);				
+                    AddLog("Content" + cleanContent, false);
 			}
 		}
 
@@ -1973,7 +2085,69 @@ namespace DocketPlaceClient
 
 		#endregion
 
-        
+          private void Cat1Cat2RadioButton_CheckedChanged(object sender, EventArgs e)
+          {
+               if (Cat1Cat2RadioButton.Checked)
+               {
+                    DepCat1RadioButton.Checked = false;
+               }
+          }
 
+          private void DepCat1RadioButton_CheckedChanged(object sender, EventArgs e)
+          {
+               if (DepCat1RadioButton.Checked)
+               {
+                    Cat1Cat2RadioButton.Checked = false;
+               }
+          }
+
+       
+          static public string CleanString(string s)
+          {
+               if (s != null && s.Length > 0)
+               {
+                    StringBuilder sb = new StringBuilder(s.Length);
+                    foreach (char c in s)
+                    {
+                         if (c != (char)1 && c != (char)27 && c != (char)29 && c != (char)2 && c != (char)6 && c != (char)3 && c != (char)5 && c != (char)0)
+                         {
+                              sb.Append(c);
+                         }
+                    }
+                    s = sb.ToString();
+               }
+               return s;
+          }
+
+          private void button1_Click(object sender, EventArgs e)
+          {
+               TriggerCashDrawer();
+          }
+
+          private void TriggerCashDrawer()
+          {
+               AddLog("Cash Drawer Triggered", false);
+
+               const string ESC = "\x1B";
+               const string p = "\x70";
+               const string NUL = "\x00";
+               const string EM = "\x19";
+
+
+               SerialPort port = new SerialPort(cbPort.Text, 9600, Parity.None, 8, StopBits.One);
+
+               // Open the port for communications
+               port.Open();
+
+
+
+               string drawerSequence = ESC + p + NUL + EM + NUL;
+
+               // Write a string
+               port.Write(drawerSequence);
+
+               // Close the port
+               port.Close();
+          }
 	}	
 }		

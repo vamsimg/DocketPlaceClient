@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DocketPlaceClient.Properties {
+namespace DocketPlaceClient.Service_References {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -167,7 +167,7 @@ namespace DocketPlaceClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MYOB")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft")]
         public string POSSoftware {
             get {
                 return ((string)(this["POSSoftware"]));
