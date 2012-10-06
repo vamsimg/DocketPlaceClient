@@ -36,9 +36,10 @@ namespace DocketPlaceClient
 			foreach (string line in lines)
 			{
 				index++;
-				if (line.Contains("Docket"))
+				if (line.Contains("Docket No."))
 				{
 					docketLine = lines[index];
+                         break;
 				}
 			}
 
